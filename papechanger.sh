@@ -12,7 +12,7 @@ pickpape()
 	selectionfile="$(ls "$folderpath" | shuf -n 1 )"
 	selectionfullpath="$folderpath/$selectionfile"
 	echo "$selectionfullpath"
-	echo $selectionfullpath >> ~/.papehistory
+	echo $selectionfullpath >> $HOME/.papehistory
 }
 
 changepape()
@@ -32,7 +32,7 @@ changepape()
 
 change_pape_folder()
 {
-	options=$(ls -d "$walpaperdir"/*/ | sed "s:\(\/home\/nate\/Pictures\/wallpapers\/\)\(.*\)\/:\2:")
+	options=$(ls -d "$walpaperdir"/*/ | sed "s:\($walpaperdir\)\(.*\)\/:\2:")
 	selection=$(echo "$options" | rofi -dmenu)
 	echo $selection > ~/.papefolder
 	folderpath="$walpaperdir/$(cat ~/.papefolder)"
