@@ -31,7 +31,7 @@ changepape()
 
 change_pape_folder()
 {
-	options=$(ls -d "$walpaperdir"/*/ | sed "s:\($walpaperdir\)\(.*\)\/:\2:")
+	options=$(ls -d "$walpaperdir"/* | sed "s:\($walpaperdir\)\(.*\)\/:\2:")
 	selection=$(echo "$options" | rofi -dmenu)	
 	if [ $? -eq 0 ]; then
 	echo $selection > ~/.papefolder
