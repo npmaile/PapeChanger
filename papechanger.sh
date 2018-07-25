@@ -26,7 +26,6 @@ changepape()
 		fehargs+="$newarg"
 		numscreens=$(($numscreens-1))
 	done
-	echo "fehargs= ""${fehargs[@]}"
 	eval feh '"'$fehargs'"'
 }
 
