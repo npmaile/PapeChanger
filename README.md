@@ -27,7 +27,7 @@ logging your papes in ~/.papehistory so you can go back and look at ones that yo
 
 upcoming:
 
-a pape downloader to grab walpapers from imageboards like 4chan or 8chan or other places I'm sure
+a pape downloader to grab walpapers from imageboards like 4chan or imgur or other places I'm sure
 more concise programming
 support for other things I'm sure
 
