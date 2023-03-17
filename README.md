@@ -17,7 +17,7 @@ Features:
 
 picking a different image for each monitor attached(kill me)
 
-utilizing rofi for some dumb ass reason
+utilizing rofi
 
 literally nothing else. Please don't use this script
 
