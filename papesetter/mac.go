@@ -1,4 +1,7 @@
-package macos
+//go:build darwin
+// +build darwin
+
+package papesetter
 
 import (
 	"fmt"

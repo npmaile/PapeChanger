@@ -1,4 +1,7 @@
-package linux
+//go:build darwin
+// +build darwin
+
+package chooser
 
 import (
 	"io"
@@ -7,7 +10,7 @@ import (
 )
 
 func Chooser(directories []string) (string, error) {
-	cmd := exec.Command("rofi", "-dmenu")
+	cmd := exec.Command("choose")
 	var pipe io.WriteCloser
 	pipe, err := cmd.StdinPipe()
 	if err != nil {
@@ -35,5 +38,5 @@ func Chooser(directories []string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSuffix(string(pickedFile), "\n"), nil
+	return string(pickedFile), nil
 }

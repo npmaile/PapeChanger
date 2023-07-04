@@ -1,4 +1,7 @@
-package linux
+//go:build linux
+// +build linux
+
+package papesetter
 
 import (
 	"os"

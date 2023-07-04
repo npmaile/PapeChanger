@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"io/fs"
 	"log"
 	"math/rand"
@@ -10,11 +9,10 @@ import (
 	"os/user"
 	"path"
 	"path/filepath"
-	"runtime"
 	"strings"
 
-	"github.com/npmaile/papeChanger/linux"
-	macos "github.com/npmaile/papeChanger/macOS"
+	"github.com/npmaile/papeChanger/chooser"
+	"github.com/npmaile/papeChanger/papesetter"
 )
 
 const errPrefix = "😭😭oOpSy DoOpSiE, you made a frickey-wickey 😭😭: "
@@ -50,20 +48,8 @@ func main() {
 				dirList = append(dirList, file.Name())
 			}
 		}
-		var chooseFunc func([]string) (string, error)
-		switch runtime.GOOS {
-		case "darwin":
-			chooseFunc = macos.Chooser
-		case "linux":
-			chooseFunc = linux.Chooser
-		default:
-			chooseFunc = func([]string) (string, error) {
-				log.Fatalf("%sYour os isn't supported (yet)", errPrefix)
-				return "", nil
-			}
-		}
 		var chosen string
-		chosen, err = chooseFunc(dirList)
+		chosen, err = chooser.Chooser(dirList)
 		if err != nil {
 			log.Fatalf("%sFailed to choose walpaper directory: %e", errPrefix, err)
 		}
@@ -81,20 +67,8 @@ func main() {
 	} else {
 		//todo
 	}
-
-	var changeWalpaperFunc func(string) error
-	switch runtime.GOOS {
-	case "darwin":
-		changeWalpaperFunc = macos.SetPape
-	case "linux":
-		changeWalpaperFunc = linux.SetPape
-	default:
-		changeWalpaperFunc = func(string) error {
-			return fmt.Errorf("OS not supported (yet)")
-		}
-	}
 	newWalpaper := string(os.PathSeparator) + filepath.Join(fullPath...)
-	err = changeWalpaperFunc(newWalpaper)
+	err = papesetter.SetPape(newWalpaper)
 	if err != nil {
 		log.Fatalf("%sunable to change walpaper: %e", errPrefix, err)
 	}
