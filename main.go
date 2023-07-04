@@ -69,8 +69,8 @@ func main() {
 		}
 		currentDirParts[len(currentDirParts)-1] = string(chosen)
 	}
-	papers, err := os.ReadDir(string(os.PathSeparator) + filepath.Join(currentDirParts...))
-	fmt.Printf("%+v\n", papers)
+	walpaperFolder := string(os.PathSeparator) + filepath.Join(currentDirParts...)
+	papers, err := os.ReadDir(walpaperFolder)
 	if err != nil {
 		log.Fatalf("%sUnable to get list of individual walpapers: %e", errPrefix, err)
 	}

@@ -35,5 +35,5 @@ func Chooser(directories []string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(pickedFile), nil
+	return strings.TrimSuffix(string(pickedFile), "\n"), nil
 }
