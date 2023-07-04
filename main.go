@@ -3,18 +3,18 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"io/fs"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
-	"os/exec"
 	"os/user"
 	"path"
 	"path/filepath"
 	"runtime"
 	"strings"
+
+	"github.com/npmaile/papeChanger/linux"
+	macos "github.com/npmaile/papeChanger/macOS"
 )
 
 const errPrefix = "😭😭oOpSy DoOpSiE, you made a frickey-wickey 😭😭: "
@@ -50,37 +50,27 @@ func main() {
 				dirList = append(dirList, file.Name())
 			}
 		}
-		cmd := exec.Command("choose")
-		var pipe io.WriteCloser
-		pipe, err = cmd.StdinPipe()
-		if err != nil {
-			log.Fatalf("%sCan't connect to standard in pipe of chooser: %e", errPrefix, err)
+		var chooseFunc func([]string) (string, error)
+		switch runtime.GOOS {
+		case "darwin":
+			chooseFunc = macos.Chooser
+		case "linux":
+			chooseFunc = linux.Chooser
+		default:
+			chooseFunc = func([]string) (string, error) {
+				log.Fatalf("%sYour os isn't supported (yet)", errPrefix)
+				return "", nil
+			}
 		}
-		var outPipe io.ReadCloser
-		outPipe, err = cmd.StdoutPipe()
+		var chosen string
+		chosen, err = chooseFunc(dirList)
 		if err != nil {
-			log.Fatalf("%sFailed to connect to output pipe of chooser: %e", errPrefix, err)
+			log.Fatalf("%sFailed to choose walpaper directory: %e", errPrefix, err)
 		}
-
-		err = cmd.Start()
-		if err != nil {
-			log.Fatalf("%sUnable to start chooser: %e", errPrefix, err)
-		}
-		pipe.Write([]byte(strings.Join(dirList, "\n")))
-		pipe.Close()
-
-		var pickedFile []byte
-		pickedFile, err = ioutil.ReadAll(outPipe)
-		if err != nil {
-			log.Fatalf("%sUnable to read chooser output: %e", errPrefix, err)
-		}
-		err = cmd.Wait()
-		if err != nil {
-			log.Fatalf("%sCouldn't complete run of chooser: %e", errPrefix, err)
-		}
-		currentDirParts[len(currentDirParts)-1] = string(pickedFile)
+		currentDirParts[len(currentDirParts)-1] = string(chosen)
 	}
 	papers, err := os.ReadDir(string(os.PathSeparator) + filepath.Join(currentDirParts...))
+	fmt.Printf("%+v\n", papers)
 	if err != nil {
 		log.Fatalf("%sUnable to get list of individual walpapers: %e", errPrefix, err)
 	}
@@ -95,14 +85,12 @@ func main() {
 	var changeWalpaperFunc func(string) error
 	switch runtime.GOOS {
 	case "darwin":
-		changeWalpaperFunc = func(s string) error {
-			cmd := exec.Command("osascript", "-e", fmt.Sprintf("tell application \"Finder\" to set desktop picture to POSIX file \"%s\"", s))
-			return cmd.Run()
-
-		}
+		changeWalpaperFunc = macos.SetPape
+	case "linux":
+		changeWalpaperFunc = linux.SetPape
 	default:
 		changeWalpaperFunc = func(string) error {
-			return fmt.Errorf("buy a real computer")
+			return fmt.Errorf("OS not supported (yet)")
 		}
 	}
 	newWalpaper := string(os.PathSeparator) + filepath.Join(fullPath...)
