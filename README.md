@@ -2,6 +2,12 @@
 Recently updated to lightnign fast go!
 Nearly a 10% improvement in speed (on macos) (compared to shell version)
 
+
+https://github.com/npmaile/PapeChanger/assets/17767713/1cc584cc-681c-4020-914f-be48e6bd9b4d
+
+
+
+
 # How to use
 This program assumes you have a directory filled with directories filled with walpapers. 
 If your walpapers are laid out in another configuration, You won't be able to use the directory switching capabilities.
