@@ -1,12 +1,7 @@
 # PapeChanger
-Recently updated to lightnign fast go!
-Nearly a 10% improvement in speed (on macos) (compared to shell version)
-
+This program switches your wallpaper to a random selection from a directory and allows changing the directory. It's meant to be invoked via a keyboard macro, though it will work from the command line. 
 
 https://github.com/npmaile/PapeChanger/assets/17767713/1cc584cc-681c-4020-914f-be48e6bd9b4d
-
-
-
 
 # How to use
 This program assumes you have a directory filled with directories filled with walpapers. 
