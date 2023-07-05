@@ -14,6 +14,9 @@ Test the directory changing functionality by running `papeChanger -c`. If it doe
 Once you've confirmed it works on your system, you will want to bind `papeChanger` to a hotkey and `papeChanger -c` to another hotkey so you can change your walpapers without needing to open a terminal or run dialogue. 
 
 # Building
+## Minimum Requirements
+- A functioning go environment
+## Windows
 It has a graphical component that requires a c compiler on windows
 Once you have one installed (only on windows), you can simply build using `go build -o papeChanger main.go`
 
