@@ -24,6 +24,7 @@ const errPrefix = "😭😭oOpSy DoOpSiE, you made a frickey-wickey 😭😭: "
 
 func main() {
 	// parse command line arguments
+	useBuiltInChanger := flag.Bool("useBuiltin", false, "Use the built-in selector widget instead of one you have installed")
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
 	randomize := flag.Bool("r", true, "Randomize wallpaper to change")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
@@ -86,9 +87,16 @@ func main() {
 			}
 		}
 		var chosen string
-		chosen, err = chooser.Chooser(dirList)
-		if err != nil {
-			log.Fatalf("%sFailed to choose walpaper directory: %e", errPrefix, err)
+		if !*useBuiltInChanger {
+			chosen, err = chooser.Chooser(dirList)
+			if err != nil {
+				log.Fatalf("%sFailed to choose walpaper directory: %e", errPrefix, err)
+			}
+		} else {
+			chosen, err = chooser.BuiltIn(dirList)
+			if err != nil{
+				log.Fatalf("%sFailed to choose walpaper directory: %e", errPrefix, err)
+			}
 		}
 		currentDirParts[len(currentDirParts)-1] = string(chosen)
 	}
