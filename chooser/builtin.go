@@ -12,8 +12,10 @@ func BuiltIn(directories []string) (string, error) {
 	chooser := app.New()
 	window := chooser.NewWindow("Chooser Widget")
 	window.CenterOnScreen()
-	container := container.New(layout.NewVBoxLayout())
+	cont := container.New(layout.NewVBoxLayout())
+
 	selectionChan := make(chan string)
+
 	for _, item := range directories {
 		var item = item
 		listItem := widget.NewButton(item, func() {
@@ -23,9 +25,10 @@ func BuiltIn(directories []string) (string, error) {
 			window.Close()
 		})
 		listItem.Show()
-		container.Add(listItem)
+		cont.Add(listItem)
 	}
-	window.SetContent(container)
+
+	window.SetContent(container.NewScroll(cont))
 	window.ShowAndRun()
 	s := <-selectionChan
 	return s, nil
