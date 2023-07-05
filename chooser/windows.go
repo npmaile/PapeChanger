@@ -3,6 +3,7 @@
 
 package chooser
 
-func Chooser([]string) (string, error) {
-	return "", fmt.Errorf("Jeez, I'm working on it!")
+func Chooser(dirs []string) (string, error) {
+	// will replace with something else if I find a good chooser for windows
+	return BuiltIn(dirs)
 }

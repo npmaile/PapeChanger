@@ -74,7 +74,15 @@ func main() {
 	}
 	currentDirParts := pathParts[0 : len(pathParts)-1]
 	if *changeDir {
-		megaDir := string(os.PathSeparator) + filepath.Join(currentDirParts[0:len(currentDirParts)-1]...)
+		var megaDir string
+		switch runtime.GOOS {
+		case "windows":
+			folderParts := append([]string{currentDirParts[0], "\\"}, currentDirParts[1:len(currentDirParts)-1]...)
+			megaDir = string(filepath.Join(folderParts...))
+
+		default:
+			megaDir = string(os.PathSeparator) + filepath.Join(currentDirParts[0:len(currentDirParts)-1]...)
+		}
 		var files []fs.DirEntry
 		files, err = os.ReadDir(megaDir)
 		if err != nil {
@@ -94,7 +102,7 @@ func main() {
 			}
 		} else {
 			chosen, err = chooser.BuiltIn(dirList)
-			if err != nil{
+			if err != nil {
 				log.Fatalf("%sFailed to choose walpaper directory: %e", errPrefix, err)
 			}
 		}
