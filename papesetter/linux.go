@@ -5,11 +5,21 @@ package papesetter
 
 import (
 	"os"
-	"os/exec"
+
+	"github.com/npmaile/papeChanger/papesetter/de"
 )
 
 func SetPape(s string) error {
-	swaysock := os.Getenv("SWAYSOCK")
-	cmd := exec.Command("swaymsg", "-s", swaysock, "output", "*", "background", s, "fill")
-	return cmd.Run()
+	desktop := getDesktop()
+	return desktop.SetPape(s)
+}
+
+func getDesktop() DE {
+	switch os.Getenv("XDG_CURRENT_DESKTOP") {
+	case "KDE":
+		return de.Plasma{}
+	default: // pass through to next
+	}
+	return deNotFound{}
+
 }
