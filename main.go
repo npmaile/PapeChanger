@@ -47,23 +47,23 @@ func main() {
 		var papePath string
 		papePath, err = filepath.Abs(filepathraw)
 		if err != nil {
-			log.Fatalf("%sUnable to find file %s: %w", errPrefix, filepathraw, err)
+			log.Fatalf("%sUnable to find file %s: %v", errPrefix, filepathraw, err)
 		}
 		log.Printf("Setting wallpaper to %s", papePath)
 		err = papesetter.SetPape(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to set walpaper to %s: %w", errPrefix, filepathraw, err)
+			log.Fatalf("%sUnable to set walpaper to %s: %v", errPrefix, filepathraw, err)
 		}
 		err = writeState(*stateFile, papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to write state file %s: %w", errPrefix, *stateFile, err)
+			log.Fatalf("%sUnable to write state file %s: %v", errPrefix, *stateFile, err)
 		}
 		os.Exit(0)
 	}
 
 	currentWalpaper, err := os.ReadFile(*stateFile)
 	if err != nil {
-		log.Fatalf("%sCan't read the file: %w", errPrefix, err)
+		log.Fatalf("%sCan't read the file: %v", errPrefix, err)
 	}
 	var pathParts []string
 	switch runtime.GOOS {
@@ -74,11 +74,19 @@ func main() {
 	}
 	currentDirParts := pathParts[0 : len(pathParts)-1]
 	if *changeDir {
-		megaDir := string(os.PathSeparator) + filepath.Join(currentDirParts[0:len(currentDirParts)-1]...)
+		var megaDir string
+		switch runtime.GOOS {
+		case "windows":
+			folderParts := append([]string{currentDirParts[0], "\\"}, currentDirParts[1:len(currentDirParts)-1]...)
+			megaDir = string(filepath.Join(folderParts...))
+
+		default:
+			megaDir = string(os.PathSeparator) + filepath.Join(currentDirParts[0:len(currentDirParts)-1]...)
+		}
 		var files []fs.DirEntry
 		files, err = os.ReadDir(megaDir)
 		if err != nil {
-			log.Fatalf("%sYou've moved your walpapers around and I can't find them now: %w", errPrefix, err)
+			log.Fatalf("%sYou've moved your walpapers around and I can't find them now: %v", errPrefix, err)
 		}
 		dirList := []string{}
 		for _, file := range files {
@@ -90,12 +98,12 @@ func main() {
 		if !*useBuiltInChanger {
 			chosen, err = chooser.Chooser(dirList)
 			if err != nil {
-				log.Fatalf("%sFailed to choose walpaper directory: %w", errPrefix, err)
+				log.Fatalf("%sFailed to choose walpaper directory: %v", errPrefix, err)
 			}
 		} else {
 			chosen, err = chooser.BuiltIn(dirList)
 			if err != nil {
-				log.Fatalf("%sFailed to choose walpaper directory: %w", errPrefix, err)
+				log.Fatalf("%sFailed to choose walpaper directory: %v", errPrefix, err)
 			}
 		}
 		currentDirParts[len(currentDirParts)-1] = string(chosen)
@@ -111,7 +119,7 @@ func main() {
 	}
 	papers, err := os.ReadDir(walpaperFolder)
 	if err != nil {
-		log.Fatalf("%sUnable to get list of individual walpapers: %w", errPrefix, err)
+		log.Fatalf("%sUnable to get list of individual walpapers: %v", errPrefix, err)
 	}
 
 	var fullPath []string
@@ -131,11 +139,11 @@ func main() {
 	}
 	err = papesetter.SetPape(newWalpaper)
 	if err != nil {
-		log.Fatalf("%sunable to change walpaper: %w", errPrefix, err)
+		log.Fatalf("%sunable to change walpaper: %v", errPrefix, err)
 	}
 	err = writeState(*stateFile, newWalpaper)
 	if err != nil {
-		log.Fatalf("%sCreation of state file failed: %w", errPrefix, err)
+		log.Fatalf("%sCreation of state file failed: %v", errPrefix, err)
 	}
 }
 

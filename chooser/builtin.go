@@ -29,6 +29,7 @@ func BuiltIn(directories []string) (string, error) {
 	}
 
 	window.SetContent(container.NewScroll(cont))
+	window.Resize(fyne.NewSize(600, 400))
 	window.ShowAndRun()
 	s := <-selectionChan
 	return s, nil
