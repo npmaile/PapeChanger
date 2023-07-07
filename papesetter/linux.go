@@ -20,9 +20,14 @@ func SetPape(s string) error {
 
 func getDesktop() DE {
 	switch os.Getenv("XDG_CURRENT_DESKTOP") {
+	case "XFCE":
+
+		return de.Xfce{}
+
 	case "KDE":
 		return de.Plasma{}
 	}
+
 	nextAttempt, err := checkViaPS()
 	if err != nil {
 		log.Printf("something went wrong with ps to check for your de: %s", err)
