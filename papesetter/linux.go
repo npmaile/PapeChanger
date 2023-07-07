@@ -4,8 +4,12 @@
 package papesetter
 
 import (
+	"errors"
+	"log"
 	"os"
+	"os/exec"
 
+	"github.com/cloudflare/ahocorasick"
 	"github.com/npmaile/papeChanger/papesetter/de"
 )
 
@@ -18,8 +22,31 @@ func getDesktop() DE {
 	switch os.Getenv("XDG_CURRENT_DESKTOP") {
 	case "KDE":
 		return de.Plasma{}
-	default: // pass through to next
 	}
+	nextAttempt, err := checkViaPS()
+	if err != nil {
+		log.Printf("something went wrong with ps to check for your de: %s", err)
+		return deNotFound{}
+	}
+	switch nextAttempt {
+	case "swaybg":
+		return de.Sway{}
+	}
+
 	return deNotFound{}
 
+}
+
+func checkViaPS() (string, error) {
+	ps := exec.Command("ps", "-a")
+	output, err := ps.Output()
+	if err != nil {
+		return "", errors.New("it didn't work")
+	}
+	matched := ahocorasick.NewMatcher(hardOnes).Match(output)
+	return string(hardOnes[matched[0]]), err
+}
+
+var hardOnes = [][]byte{
+	[]byte("swaybg"),
 }
