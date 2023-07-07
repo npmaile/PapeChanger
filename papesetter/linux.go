@@ -29,7 +29,7 @@ func getDesktop() DE {
 		return deNotFound{}
 	}
 	switch nextAttempt {
-	case "swaybg":
+	case "sway":
 		return de.Sway{}
 	}
 
@@ -44,9 +44,12 @@ func checkViaPS() (string, error) {
 		return "", errors.New("it didn't work")
 	}
 	matched := ahocorasick.NewMatcher(hardOnes).Match(output)
+	if len(matched) == 0 {
+		return "", errors.New("desktop environment not found")
+	}
 	return string(hardOnes[matched[0]]), err
 }
 
 var hardOnes = [][]byte{
-	[]byte("swaybg"),
+	[]byte("sway"),
 }
