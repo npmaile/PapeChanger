@@ -1,0 +1,68 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Current Release
+        uses: dev-drprasad/delete-tag-and-release@v0.1.2
+        with:
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: latest
+          release_name: Release latest
+          draft: false
+          prerelease: true
+  build-apple:
+    runs-on: macos-11
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.3
+        with:
+          go-version: 1.20.0
+      - name: Install dmg maker
+        run: brew install create-dmg
+      - name: Create Apple dmg asset
+        run: make release-mac
+      - name: Upload apple release asset
+        id: upload-apple-release-asset
+        run: |
+          gh release upload latest ./phonon.dmg
+  build-windows:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Windows
+        run: |
+          $env:Path += ";C:\Program Files (x86)\WiX Toolset v3.11\bin"
+          make release-win
+      - name: get release
+        id: get_release
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          latest: true
+          draft: false
+          prerelease: true
+      - name: Upluad Winodws Release Asset
+        id: upload-windows-release-asset
+        run: |
+          gh release upload latest ./phonon.msi
