@@ -17,8 +17,8 @@ release-mac: mkdir
 	go get ./...
 	mkdir -p ./build/release/MacOS/
 	cp -R ./build/package/Mac/PapeChanger.app ./build/release/MacOS/PapeChanger.app
-	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/arm64_papeChanger main.go
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/amd64_papeChanger main.go
+	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/arm64_papeChanger main.go
+	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/amd64_papeChanger main.go
 	create-dmg \
 		--app-drop-link 450 200 \
 		--icon "PapeChanger.app" 150 200\
@@ -26,7 +26,7 @@ release-mac: mkdir
 		--hide-extension "PapeChanger.app" \
 		--window-size 600 400 \
 		--background "./assets/MacOS/installer_background.png" \
-		./build/release/MacOS/phonon.dmg \
+		./build/release/MacOS/PapeChanger.dmg \
 		./build/release/MacOS/PapeChanger.app
 release-win: windows-build
 	go run extra/wxsgenerator/generator.go build/release/win/wix/papeChanger.wxs.templ > papeChanger.wxs
