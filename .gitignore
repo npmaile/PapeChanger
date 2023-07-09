@@ -1,1 +1,4 @@
 main
+build/bin/*
+build/release/*
+phonon.dmg
