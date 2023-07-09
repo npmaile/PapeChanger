@@ -25,5 +25,12 @@ I will be supporting systems as I become aware of them. The two things necessary
 - [x] Windows
 - [x] Mac
 - [x] Linux/Sway
-- [ ] Linux/x11
-- [ ] BSD/x11
+- [x] Linux/XFCE
+- [x] Linux/KDE
+- [ ] Linux/x11-generic
+- [ ] Linux/Gnome
+- [ ] Linux/Mate
+- [ ] Linux/Cinnamon
+- [ ] Linux/Budgie
+- [ ] Linux/LxQt
+- [ ] Linux/Deepin
