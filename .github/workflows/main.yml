@@ -18,12 +18,6 @@ jobs:
           draft-drop: true
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      - name: Delete Current Release
-        uses: dev-drprasad/delete-tag-and-release@v0.1.2
-        with:
-          tag_name: latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
