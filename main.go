@@ -14,6 +14,7 @@ import (
 
 	"github.com/npmaile/papeChanger/chooser"
 	"github.com/npmaile/papeChanger/papesetter"
+	"github.com/npmaile/papeChanger/ui"
 )
 
 func init() {
@@ -27,6 +28,7 @@ func main() {
 	useBuiltInChanger := flag.Bool("useBuiltin", false, "Use the built-in selector widget instead of one you have installed")
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
 	randomize := flag.Bool("r", true, "Randomize wallpaper to change")
+	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
 	u, err := user.Current()
 	if err != nil {
@@ -61,6 +63,25 @@ func main() {
 		os.Exit(0)
 	}
 
+	if *daemon {
+		ui.RunDaemon(func(changeDir bool) {
+			doWork(useBuiltInChanger, &changeDir, randomize, stateFile)
+		})
+	}
+
+	doWork(useBuiltInChanger, changeDir, randomize, stateFile)
+}
+
+func writeState(stateFile string, newWalpaper string) error {
+	f, err := os.Create(stateFile)
+	if err != nil {
+		return err
+	}
+	_, err = f.Write([]byte(newWalpaper))
+	return err
+}
+
+func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile *string) {
 	currentWalpaper, err := os.ReadFile(*stateFile)
 	if err != nil {
 		log.Fatalf("%sCan't read the file: %v", errPrefix, err)
@@ -145,13 +166,4 @@ func main() {
 	if err != nil {
 		log.Fatalf("%sCreation of state file failed: %v", errPrefix, err)
 	}
-}
-
-func writeState(stateFile string, newWalpaper string) error {
-	f, err := os.Create(stateFile)
-	if err != nil {
-		return err
-	}
-	_, err = f.Write([]byte(newWalpaper))
-	return nil
 }
