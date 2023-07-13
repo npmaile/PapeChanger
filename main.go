@@ -160,10 +160,10 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 	}
 	err = papesetter.SetPape(newWalpaper)
 	if err != nil {
-		log.Fatalf("%sunable to change walpaper: %v", errPrefix, err)
+		log.Printf("%sunable to change walpaper: %v", errPrefix, err)
 	}
 	err = writeState(*stateFile, newWalpaper)
 	if err != nil {
-		log.Fatalf("%sCreation of state file failed: %v", errPrefix, err)
+		log.Printf("%sCreation of state file failed: %v", errPrefix, err)
 	}
 }
