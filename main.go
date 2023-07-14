@@ -13,15 +13,19 @@ import (
 	"time"
 
 	"github.com/npmaile/papeChanger/chooser"
+	"github.com/npmaile/papeChanger/errprefix"
 	"github.com/npmaile/papeChanger/papesetter"
 	"github.com/npmaile/papeChanger/ui"
 )
 
 func init() {
 	rand.Seed(int64(time.Now().Nanosecond()))
+	f, err := os.Create("/Users/npmaile/papelogs.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.SetOutput(f)
 }
-
-const errPrefix = "😭😭oOpSy DoOpSiE, you made a frickey-wickey 😭😭: "
 
 func main() {
 	// parse command line arguments
@@ -32,7 +36,7 @@ func main() {
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
 	u, err := user.Current()
 	if err != nil {
-		log.Fatalf("%sHow the H**K are you not logged in as a user?", errPrefix)
+		log.Fatalf("%sHow the H**K are you not logged in as a user?", errprefix.Get())
 	}
 	homeDir := u.HomeDir
 	var stateFile *string
@@ -49,16 +53,16 @@ func main() {
 		var papePath string
 		papePath, err = filepath.Abs(filepathraw)
 		if err != nil {
-			log.Fatalf("%sUnable to find file %s: %v", errPrefix, filepathraw, err)
+			log.Fatalf("%sUnable to find file %s: %v", errprefix.Get(), filepathraw, err)
 		}
 		log.Printf("Setting wallpaper to %s", papePath)
 		err = papesetter.SetPape(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to set walpaper to %s: %v", errPrefix, filepathraw, err)
+			log.Fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
 		}
 		err = writeState(*stateFile, papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to write state file %s: %v", errPrefix, *stateFile, err)
+			log.Fatalf("%sUnable to write state file %s: %v", errprefix.Get(), *stateFile, err)
 		}
 		os.Exit(0)
 	}
@@ -84,7 +88,7 @@ func writeState(stateFile string, newWalpaper string) error {
 func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile *string) {
 	currentWalpaper, err := os.ReadFile(*stateFile)
 	if err != nil {
-		log.Fatalf("%sCan't read the file: %v", errPrefix, err)
+		log.Fatalf("%sCan't read the file: %v", errprefix.Get(), err)
 	}
 	var pathParts []string
 	switch runtime.GOOS {
@@ -107,7 +111,7 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 		var files []fs.DirEntry
 		files, err = os.ReadDir(megaDir)
 		if err != nil {
-			log.Fatalf("%sYou've moved your walpapers around and I can't find them now: %v", errPrefix, err)
+			log.Fatalf("%sYou've moved your walpapers around and I can't find them now: %v", errprefix.Get(), err)
 		}
 		dirList := []string{}
 		for _, file := range files {
@@ -119,12 +123,12 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 		if !*useBuiltInChanger {
 			chosen, err = chooser.Chooser(dirList)
 			if err != nil {
-				log.Fatalf("%sFailed to choose walpaper directory: %v", errPrefix, err)
+				log.Fatalf("%sFailed to choose walpaper directory: %v", errprefix.Get(), err)
 			}
 		} else {
 			chosen, err = chooser.BuiltIn(dirList)
 			if err != nil {
-				log.Fatalf("%sFailed to choose walpaper directory: %v", errPrefix, err)
+				log.Fatalf("%sFailed to choose walpaper directory: %v", errprefix.Get(), err)
 			}
 		}
 		currentDirParts[len(currentDirParts)-1] = string(chosen)
@@ -140,7 +144,7 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 	}
 	papers, err := os.ReadDir(walpaperFolder)
 	if err != nil {
-		log.Fatalf("%sUnable to get list of individual walpapers: %v", errPrefix, err)
+		log.Fatalf("%sUnable to get list of individual walpapers: %v", errprefix.Get(), err)
 	}
 
 	var fullPath []string
@@ -160,10 +164,10 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 	}
 	err = papesetter.SetPape(newWalpaper)
 	if err != nil {
-		log.Printf("%sunable to change walpaper: %v", errPrefix, err)
+		log.Printf("%sunable to change walpaper: %v", errprefix.Get(), err)
 	}
 	err = writeState(*stateFile, newWalpaper)
 	if err != nil {
-		log.Printf("%sCreation of state file failed: %v", errPrefix, err)
+		log.Printf("%sCreation of state file failed: %v", errprefix.Get(), err)
 	}
 }

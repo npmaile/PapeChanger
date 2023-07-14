@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 if [ `arch` == "arm64" ] 
 then
-	exec "${0%/*}/arm64_papeChanger -d"
+	exec "${0%/*}/arm64_papeChanger" "-d"
 fi
 
 if [ `arch` == "i386" ]
 then
-	exec "${0%/*}/amd64_papeChanger -d"
+	exec "${0%/*}/amd64_papeChanger" "-d"
 fi
