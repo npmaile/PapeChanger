@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"fyne.io/fyne/v2"
 	"github.com/npmaile/papeChanger/chooser"
 	"github.com/npmaile/papeChanger/errprefix"
 	"github.com/npmaile/papeChanger/papesetter"
@@ -68,12 +69,13 @@ func main() {
 	}
 
 	if *daemon {
-		ui.RunDaemon(func(changeDir bool) {
-			doWork(useBuiltInChanger, &changeDir, randomize, stateFile)
+		ui.RunDaemon(func(changeDir bool, existingApp fyne.App) {
+			t := true
+			doWork(&t, &changeDir, randomize, stateFile, existingApp)
 		})
 	}
 
-	doWork(useBuiltInChanger, changeDir, randomize, stateFile)
+	doWork(useBuiltInChanger, changeDir, randomize, stateFile, nil)
 }
 
 func writeState(stateFile string, newWalpaper string) error {
@@ -85,7 +87,7 @@ func writeState(stateFile string, newWalpaper string) error {
 	return err
 }
 
-func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile *string) {
+func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile *string, existingApp fyne.App) {
 	currentWalpaper, err := os.ReadFile(*stateFile)
 	if err != nil {
 		log.Fatalf("%sCan't read the file: %v", errprefix.Get(), err)
@@ -126,7 +128,7 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 				log.Fatalf("%sFailed to choose walpaper directory: %v", errprefix.Get(), err)
 			}
 		} else {
-			chosen, err = chooser.BuiltIn(dirList)
+			chosen, err = chooser.BuiltIn(dirList, existingApp)
 			if err != nil {
 				log.Fatalf("%sFailed to choose walpaper directory: %v", errprefix.Get(), err)
 			}

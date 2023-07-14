@@ -57,15 +57,15 @@ func RunDaemon(doWorkfunction func()) {
 }
 */
 
-func RunDaemon(doWorkFunction func(bool)) {
+func RunDaemon(doWorkFunction func(bool, fyne.App)) {
 	a := app.New()
 	if desk, ok := a.(desktop.App); ok {
 		m := fyne.NewMenu("PapeChanger",
 			fyne.NewMenuItem("Change Wallpaper", func() {
-				doWorkFunction(false)
+				doWorkFunction(false, a)
 			}),
 			fyne.NewMenuItem("Change Directory", func() {
-				doWorkFunction(true)
+				doWorkFunction(true, a)
 			}),
 		)
 		desk.SetSystemTrayMenu(m)

@@ -9,6 +9,8 @@ var prefixes = []string{
 	"H*ck",
 	"😭😭oOpSy DoOpSiE, you made a frickey-wickey 😭😭: ",
 	"segmentation fault (core dumped)... JUST KIDDING, but really the program failed",
+	"Damn bro, I'm sorry but: ",
+
 }
 
 func Get() string {
