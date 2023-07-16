@@ -1,15 +1,27 @@
-package main
+package fileresolver
 
 import (
 	"flag"
+	"io/fs"
 	"log"
+	"math/rand"
 	"os"
+	"os/user"
 	"path/filepath"
+	"runtime"
+	"strings"
+	"time"
 
+	"fyne.io/fyne/v2"
+	"github.com/npmaile/papeChanger/internal/chooser"
 	"github.com/npmaile/papeChanger/internal/errprefix"
 	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
 )
+
+func init() {
+	rand.Seed(int64(time.Now().Nanosecond()))
+}
 
 func main() {
 	useBuiltInChanger := flag.Bool("useBuiltin", false, "Use the built-in selector widget instead of one you have installed")
@@ -17,6 +29,18 @@ func main() {
 	randomize := flag.Bool("r", true, "Randomize wallpaper to change")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
+	u, err := user.Current()
+	if err != nil {
+		log.Fatalf("%sHow the H**K are you not logged in as a user?", errprefix.Get())
+	}
+	homeDir := u.HomeDir
+	var stateFile *string
+	switch runtime.GOOS {
+	case "windows":
+		stateFile = flag.String("m", filepath.Join(homeDir, "AppData", "Local", "papeChanger", "state"), "Use a custom location to store the current walpaper set")
+	default:
+		stateFile = flag.String("m", filepath.Join(homeDir, ".local", "papeChanger", "state"), "Use a custom location to store the current walpaper set")
+	}
 	flag.Parse()
 
 	if *setup {
@@ -39,13 +63,15 @@ func main() {
 	}
 
 	if *daemon {
-		ui.RunDaemon()
+		ui.RunDaemon(func(changeDir bool, existingApp fyne.App) {
+			t := true
+			doWork(&t, &changeDir, randomize, stateFile, existingApp)
+		})
 	}
 
 	doWork(useBuiltInChanger, changeDir, randomize, stateFile, nil)
 }
 
-/*
 func writeState(stateFile string, newWalpaper string) error {
 	f, err := os.Create(stateFile)
 	if err != nil {
@@ -56,6 +82,10 @@ func writeState(stateFile string, newWalpaper string) error {
 }
 
 func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile *string, existingApp fyne.App) {
+	currentWalpaper, err := os.ReadFile(*stateFile)
+	if err != nil {
+		log.Fatalf("%sCan't read the file: %v", errprefix.Get(), err)
+	}
 	var pathParts []string
 	switch runtime.GOOS {
 	case "windows":
@@ -137,4 +167,3 @@ func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile
 		log.Printf("%sCreation of state file failed: %v", errprefix.Get(), err)
 	}
 }
-*/

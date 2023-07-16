@@ -5,7 +5,10 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/driver/desktop"
+	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/widget"
 )
 
 //go:embed icons/icon.png
@@ -37,4 +40,26 @@ func RunDaemon(doWorkFunction func(bool, fyne.App)) {
 		desk.SetSystemTrayMenu(m)
 	}
 	a.Run()
+}
+
+func ChooserWindow(directories []string) fyne.Window {
+	var window fyne.Window
+	cont := container.New(layout.NewVBoxLayout())
+	selectionChan := make(chan string)
+	var closeAction func()
+	for _, item := range directories {
+		var item = item
+		listItem := widget.NewButton(item, func() {
+			go func(item string) {
+				selectionChan <- item
+			}(item)
+			closeAction()
+		})
+		listItem.Show()
+		cont.Add(listItem)
+	}
+	window.SetContent(container.NewScroll(cont))
+	window.Resize(fyne.NewSize(600, 400))
+	window.CenterOnScreen()
+	return window
 }
