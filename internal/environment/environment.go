@@ -38,3 +38,17 @@ func Initialize() (*Env, error) {
 		CurrentPape: string(currentPapeRaw),
 	}, nil
 }
+
+func (e *Env) WriteState(papePath string) error {
+	e.CurrentPape = papePath
+	f, err := os.Create(e.StatePath)
+	if err != nil {
+		return err
+	}
+	_, err = f.WriteString(papePath)
+	return err
+}
+
+func (e *Env) PapeDir() string {
+	return filepath.Dir(e.CurrentPape)
+}

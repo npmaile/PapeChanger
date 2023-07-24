@@ -17,13 +17,13 @@ func SelectWallpaper(papeDir string) (string, error) {
 		return "", err
 	}
 	index := rand.Int() % len(papeCandidates)
-	return fmt.Sprintf("%s%s%s", papeDir, os.PathSeparator, papeCandidates[index].Name), nil
+	return fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index].Name()), nil
 }
 
-func SelectDirectory(dirOfDirs string, selectionFunc func([]string) (string, error)) (string, error) {
+func ListDirectories(dirOfDirs string) ([]string, error) {
 	DirCandidates, err := os.ReadDir(dirOfDirs)
 	if err != nil {
-		return "", err
+		return []string{""}, err
 	}
 	var dirs = make([]string, len(DirCandidates))
 	for _, possibleDir := range DirCandidates {
@@ -31,10 +31,5 @@ func SelectDirectory(dirOfDirs string, selectionFunc func([]string) (string, err
 			dirs = append(dirs, possibleDir.Name())
 		}
 	}
-	selection, err := selectionFunc(dirs)
-	if err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("%s%s%s", dirOfDirs, os.PathSeparator, selection), nil
-
+	return dirs, nil
 }
