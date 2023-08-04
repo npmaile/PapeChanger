@@ -7,13 +7,12 @@ import (
 	"path/filepath"
 
 	"github.com/npmaile/papeChanger/internal/environment"
-	errprefix "github.com/npmaile/papeChanger/internal/err_prefix"
+	"github.com/npmaile/papeChanger/internal/errprefix"
 	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
 )
 
 func main() {
-
 	//changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
@@ -38,7 +37,7 @@ func main() {
 		}
 		err = env.WriteState(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to write state file %s: %v", errprefix.Get(), err)
+			log.Fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
 		}
 		os.Exit(0)
 	}

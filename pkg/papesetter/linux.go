@@ -10,7 +10,7 @@ import (
 	"os/exec"
 
 	"github.com/cloudflare/ahocorasick"
-	"github.com/npmaile/papeChanger/papesetter/de"
+	"github.com/npmaile/papeChanger/pkg/papesetter/de"
 )
 
 func SetPape(s string) error {
