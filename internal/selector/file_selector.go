@@ -19,7 +19,6 @@ func SelectWallpaper(papeDir string) (string, error) {
 	index := rand.Int() % len(papeCandidates)
 	
 	ret := fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index].Name())
-	fmt.Println(ret)
 	return ret, nil
 }
 
