@@ -2,18 +2,21 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/npmaile/papeChanger/internal/chooser"
 	"github.com/npmaile/papeChanger/internal/environment"
 	"github.com/npmaile/papeChanger/internal/errprefix"
+	"github.com/npmaile/papeChanger/internal/selector"
 	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
 )
 
 func main() {
-	//changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
+	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
 	flag.Parse()
@@ -45,5 +48,38 @@ func main() {
 	if *daemon {
 		ui.RunDaemon(env, *setup)
 		os.Exit(0)
+	} else {
+		classicFunctionality(env, *changeDir)
+	}
+}
+
+func classicFunctionality(env *environment.Env, changeDir bool) {
+	var papeDir string
+	if changeDir {
+		dirs, err := selector.ListDirectories(env.DirOfDirs())
+		if err != nil {
+			log.Fatalf("%sUnable to change wallpaper directory: %v", errprefix.Get(), err)
+		}
+		dirToPick, err := chooser.Chooser(dirs)
+		if err != nil {
+			log.Fatalf("%sUnable to pick wallpaper directory: %v", errprefix.Get(), err)
+		}
+		papeDir = fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), dirToPick)
+
+	}
+	if papeDir == "" {
+		papeDir = env.PapeDir()
+	}
+	pape2Pick, err := selector.SelectWallpaper(papeDir)
+	if err != nil {
+		log.Fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
+	}
+	err = papesetter.SetPape(pape2Pick)
+	if err != nil {
+		log.Fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
+	}
+	err = env.WriteState(pape2Pick)
+	if err != nil {
+		log.Fatalf("%sUnable to write state file: %v", errprefix.Get(), err)
 	}
 }

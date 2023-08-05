@@ -52,3 +52,7 @@ func (e *Env) WriteState(papePath string) error {
 func (e *Env) PapeDir() string {
 	return filepath.Dir(e.CurrentPape)
 }
+
+func (e *Env) DirOfDirs() string {
+	return filepath.Dir(e.PapeDir())
+}

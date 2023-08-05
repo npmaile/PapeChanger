@@ -17,7 +17,10 @@ func SelectWallpaper(papeDir string) (string, error) {
 		return "", err
 	}
 	index := rand.Int() % len(papeCandidates)
-	return fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index].Name()), nil
+	
+	ret := fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index].Name())
+	fmt.Println(ret)
+	return ret, nil
 }
 
 func ListDirectories(dirOfDirs string) ([]string, error) {
