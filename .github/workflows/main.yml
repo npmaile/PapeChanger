@@ -4,19 +4,14 @@ on:
     branches: [ master ]
   workflow_dispatch:
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
+  manage-release:
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: latest
-          release_name: Release latest
-          draft: false
-          prerelease: true
+      - name:
+        run: |
+          gh release delete latest
+          gh release create latest
   build-apple:
     runs-on: macos-11
     env:
