@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   manage-release:
+    runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
