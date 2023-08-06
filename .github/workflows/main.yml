@@ -9,7 +9,8 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name:
+      - uses: actions/checkout@v2
+      - name: manage-releases
         run: |
           gh release delete latest
           gh release create latest
@@ -19,8 +20,6 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
         with:
