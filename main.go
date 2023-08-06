@@ -47,8 +47,8 @@ func main() {
 	}
 
 	if *daemon {
+		fmt.Println(env.DirOfDirs())
 		ui.RunDaemon(env, *setup)
-		os.Exit(0)
 	} else {
 		classicFunctionality(env, *changeDir)
 	}

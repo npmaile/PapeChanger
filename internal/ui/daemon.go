@@ -3,6 +3,8 @@ package ui
 import (
 	_ "embed"
 	"log"
+	"os"
+	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -39,51 +41,77 @@ func RunDaemon(env *environment.Env, setup bool) {
 				nextPape, err := selector.SelectWallpaper(env.PapeDir())
 				if err != nil {
 					log.Printf("unable to change wallpaper: %s", err.Error())
+					return
 				}
 				papesetter.SetPape(nextPape)
 				env.WriteState(nextPape)
 
 			}),
 			fyne.NewMenuItem("Change Directory", func() {
-				dirs, err := selector.ListDirectories(env.PapeDir())
+				dirs, err := selector.ListDirectories(env.DirOfDirs())
 				if err != nil {
 					log.Printf("unable to change directory :%s", err.Error())
+					return
 				}
 				selectionChan := make(chan string, 1)
 				ChooserWindow(a, dirs, selectionChan)
 				selection := <-selectionChan
-				nextPape, err := selector.SelectWallpaper(selection)
+
+				selectionFullPath := fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selection)
+				nextPape, err := selector.SelectWallpaper(selectionFullPath)
 				if err != nil {
 					log.Printf("unable to change wallpaper: %s", err.Error())
+					return
 				}
-				papesetter.SetPape(nextPape)
-				env.WriteState(nextPape)
+				err = papesetter.SetPape(nextPape)
+				if err != nil{
+					log.Printf("unable to set wallpaper: %s", err.Error())
+					return
+				}
+				err = env.WriteState(nextPape)
+				if err != nil{
+					log.Printf("unable to write state: %s", err.Error())
+					return
+				}
 			}),
 		)
 		desk.SetSystemTrayMenu(m)
 	}
 
 	if setup {
-		selection := make(chan string, 1)
+		selection := make(chan papePathSelection, 1)
 		SetupWindow(a, selection)
 		s := <-selection
-		env.WriteState(s)
-		papesetter.SetPape(s)
+		if s.err != nil {
+			//todo: something
+		}
+		env.WriteState(s.selectedPape)
+		papesetter.SetPape(s.selectedPape)
 	}
 	a.Run()
 }
 
-func SetupWindow(app fyne.App, selectedPapePath chan string) {
+type papePathSelection struct {
+	err          error
+	selectedPape string
+}
+
+func SetupWindow(app fyne.App, selectedPapePath chan papePathSelection) {
 	window := app.NewWindow("Select a wallpaper")
 	dialog.NewFileOpen(
 		func(rc fyne.URIReadCloser, e error) {
-			selectedPapePath <- rc.URI().Path()
+			if e != nil {
+				selectedPapePath <- papePathSelection{err: e, selectedPape: ""}
+			}
+			selectedPapePath <- papePathSelection{selectedPape: rc.URI().Path()}
+
 		},
 		window)
 	window.Show()
 }
 
 func ChooserWindow(app fyne.App, directories []string, selectionChan chan string) {
+	fmt.Printf("lengh passed to chooser window: %d\n", len(directories))
 	window := app.NewWindow("select directory")
 	cont := container.New(layout.NewVBoxLayout())
 	for _, item := range directories {
@@ -93,11 +121,12 @@ func ChooserWindow(app fyne.App, directories []string, selectionChan chan string
 				selectionChan <- item
 			}(item)
 			window.Hide()
+			window.Close()
 		})
-		listItem.Show()
 		cont.Add(listItem)
 	}
 	window.SetContent(container.NewScroll(cont))
 	window.Resize(fyne.NewSize(600, 400))
 	window.CenterOnScreen()
+	window.Show()
 }

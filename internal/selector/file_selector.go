@@ -27,7 +27,7 @@ func ListDirectories(dirOfDirs string) ([]string, error) {
 	if err != nil {
 		return []string{""}, err
 	}
-	var dirs = make([]string, len(DirCandidates))
+	var dirs = make([]string, 0)
 	for _, possibleDir := range DirCandidates {
 		if possibleDir.IsDir() {
 			dirs = append(dirs, possibleDir.Name())
