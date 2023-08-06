@@ -2,174 +2,90 @@ package main
 
 import (
 	"flag"
-	"io/fs"
+	"fmt"
 	"log"
-	"math/rand"
 	"os"
-	"os/user"
 	"path/filepath"
-	"runtime"
-	"strings"
-	"time"
 
-	"fyne.io/fyne/v2"
-	"github.com/npmaile/papeChanger/chooser"
-	"github.com/npmaile/papeChanger/errprefix"
-	"github.com/npmaile/papeChanger/papesetter"
-	"github.com/npmaile/papeChanger/ui"
+	"github.com/npmaile/papeChanger/internal/chooser"
+	"github.com/npmaile/papeChanger/internal/environment"
+	"github.com/npmaile/papeChanger/internal/errprefix"
+	"github.com/npmaile/papeChanger/internal/selector"
+	"github.com/npmaile/papeChanger/internal/ui"
+	"github.com/npmaile/papeChanger/pkg/papesetter"
+	"golang.org/x/exp/slog"
 )
 
-func init() {
-	rand.Seed(int64(time.Now().Nanosecond()))
-	f, err := os.Create("/Users/npmaile/papelogs.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.SetOutput(f)
-}
-
 func main() {
-	// parse command line arguments
-	useBuiltInChanger := flag.Bool("useBuiltin", false, "Use the built-in selector widget instead of one you have installed")
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
-	randomize := flag.Bool("r", true, "Randomize wallpaper to change")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
-	u, err := user.Current()
-	if err != nil {
-		log.Fatalf("%sHow the H**K are you not logged in as a user?", errprefix.Get())
-	}
-	homeDir := u.HomeDir
-	var stateFile *string
-	switch runtime.GOOS {
-	case "windows":
-		stateFile = flag.String("m", filepath.Join(homeDir, "AppData", "Local", "papeChanger", "state"), "Use a custom location to store the current walpaper set")
-	default:
-		stateFile = flag.String("m", filepath.Join(homeDir, ".local", "papeChanger", "state"), "Use a custom location to store the current walpaper set")
-	}
 	flag.Parse()
 
-	if *setup {
+	env, err := environment.Initialize()
+	if err != nil {
+		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
+	}
+
+	if *setup && !*daemon {
 		filepathraw := os.Args[len(os.Args)-1]
 		var papePath string
-		papePath, err = filepath.Abs(filepathraw)
+		papePath, err := filepath.Abs(filepathraw)
 		if err != nil {
-			log.Fatalf("%sUnable to find file %s: %v", errprefix.Get(), filepathraw, err)
+			fatalf("%sUnable to find file %s: %v", errprefix.Get(), filepathraw, err)
 		}
 		log.Printf("Setting wallpaper to %s", papePath)
 		err = papesetter.SetPape(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
+			fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
 		}
-		err = writeState(*stateFile, papePath)
+		err = env.WriteState(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to write state file %s: %v", errprefix.Get(), *stateFile, err)
+			fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
 		}
 		os.Exit(0)
 	}
 
 	if *daemon {
-		ui.RunDaemon(func(changeDir bool, existingApp fyne.App) {
-			t := true
-			doWork(&t, &changeDir, randomize, stateFile, existingApp)
-		})
-	}
-
-	doWork(useBuiltInChanger, changeDir, randomize, stateFile, nil)
-}
-
-func writeState(stateFile string, newWalpaper string) error {
-	f, err := os.Create(stateFile)
-	if err != nil {
-		return err
-	}
-	_, err = f.Write([]byte(newWalpaper))
-	return err
-}
-
-func doWork(useBuiltInChanger *bool, changeDir *bool, randomize *bool, stateFile *string, existingApp fyne.App) {
-	currentWalpaper, err := os.ReadFile(*stateFile)
-	if err != nil {
-		log.Fatalf("%sCan't read the file: %v", errprefix.Get(), err)
-	}
-	var pathParts []string
-	switch runtime.GOOS {
-	case "windows":
-		pathParts = strings.Split(string(currentWalpaper), string(os.PathSeparator))
-	default:
-		pathParts = strings.Split(string(currentWalpaper), string(os.PathSeparator))
-	}
-	currentDirParts := pathParts[0 : len(pathParts)-1]
-	if *changeDir {
-		var megaDir string
-		switch runtime.GOOS {
-		case "windows":
-			folderParts := append([]string{currentDirParts[0], "\\"}, currentDirParts[1:len(currentDirParts)-1]...)
-			megaDir = string(filepath.Join(folderParts...))
-
-		default:
-			megaDir = string(os.PathSeparator) + filepath.Join(currentDirParts[0:len(currentDirParts)-1]...)
-		}
-		var files []fs.DirEntry
-		files, err = os.ReadDir(megaDir)
-		if err != nil {
-			log.Fatalf("%sYou've moved your walpapers around and I can't find them now: %v", errprefix.Get(), err)
-		}
-		dirList := []string{}
-		for _, file := range files {
-			if file.IsDir() {
-				dirList = append(dirList, file.Name())
-			}
-		}
-		var chosen string
-		if !*useBuiltInChanger {
-			chosen, err = chooser.Chooser(dirList)
-			if err != nil {
-				log.Fatalf("%sFailed to choose walpaper directory: %v", errprefix.Get(), err)
-			}
-		} else {
-			chosen, err = chooser.BuiltIn(dirList, existingApp)
-			if err != nil {
-				log.Fatalf("%sFailed to choose walpaper directory: %v", errprefix.Get(), err)
-			}
-		}
-		currentDirParts[len(currentDirParts)-1] = string(chosen)
-	}
-
-	var walpaperFolder string
-	switch runtime.GOOS {
-	case "windows":
-		folderParts := append([]string{currentDirParts[0], "\\"}, currentDirParts[1:]...)
-		walpaperFolder = string(filepath.Join(folderParts...))
-	default:
-		walpaperFolder = string(os.PathSeparator) + filepath.Join(currentDirParts...)
-	}
-	papers, err := os.ReadDir(walpaperFolder)
-	if err != nil {
-		log.Fatalf("%sUnable to get list of individual walpapers: %v", errprefix.Get(), err)
-	}
-
-	var fullPath []string
-	if *randomize {
-		index := rand.Int() % len(papers)
-		fullPath = append(currentDirParts, papers[index].Name())
+		fmt.Println(env.DirOfDirs())
+		ui.RunDaemon(env, *setup)
 	} else {
-		//todo
+		classicFunctionality(env, *changeDir)
 	}
-	var newWalpaper string
-	switch runtime.GOOS {
-	case "windows":
-		folderParts := append([]string{fullPath[0], "\\"}, fullPath[1:]...)
-		newWalpaper = string(filepath.Join(folderParts...))
-	default:
-		newWalpaper = string(os.PathSeparator) + filepath.Join(fullPath...)
+}
+
+func classicFunctionality(env *environment.Env, changeDir bool) {
+	var papeDir string
+	if changeDir {
+		dirs, err := selector.ListDirectories(env.DirOfDirs())
+		if err != nil {
+			fatalf("%sUnable to change wallpaper directory: %v", errprefix.Get(), err)
+		}
+		dirToPick, err := chooser.Chooser(dirs)
+		if err != nil {
+			fatalf("%sUnable to pick wallpaper directory: %v", errprefix.Get(), err)
+		}
+		papeDir = fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), dirToPick)
+
 	}
-	err = papesetter.SetPape(newWalpaper)
+	if papeDir == "" {
+		papeDir = env.PapeDir()
+	}
+	pape2Pick, err := selector.SelectWallpaper(papeDir)
 	if err != nil {
-		log.Printf("%sunable to change walpaper: %v", errprefix.Get(), err)
+		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
 	}
-	err = writeState(*stateFile, newWalpaper)
+	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
-		log.Printf("%sCreation of state file failed: %v", errprefix.Get(), err)
+		fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
 	}
+	err = env.WriteState(pape2Pick)
+	if err != nil {
+		fatalf("%sUnable to write state file: %v", errprefix.Get(), err)
+	}
+}
+
+func fatalf(msg string, vars ...any) {
+	slog.Error(fmt.Sprintf(msg, vars...))
+	os.Exit(1)
 }

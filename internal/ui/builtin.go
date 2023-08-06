@@ -1,4 +1,4 @@
-package chooser
+package ui
 
 import (
 	"errors"
