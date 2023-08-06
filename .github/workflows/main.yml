@@ -4,6 +4,14 @@ on:
     branches: [ master ]
   workflow_dispatch:
 jobs:
+  manage-release:
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name:
+        run: |
+          gh release delete latest
+          gh release create latest
   build-apple:
     runs-on: macos-11
     env:
