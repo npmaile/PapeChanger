@@ -13,6 +13,7 @@ import (
 	"github.com/npmaile/papeChanger/internal/selector"
 	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
+	"golang.org/x/exp/slog"
 )
 
 func main() {
@@ -23,7 +24,7 @@ func main() {
 
 	env, err := environment.Initialize()
 	if err != nil {
-		log.Fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
+		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
 	}
 
 	if *setup && !*daemon {
@@ -31,16 +32,16 @@ func main() {
 		var papePath string
 		papePath, err := filepath.Abs(filepathraw)
 		if err != nil {
-			log.Fatalf("%sUnable to find file %s: %v", errprefix.Get(), filepathraw, err)
+			fatalf("%sUnable to find file %s: %v", errprefix.Get(), filepathraw, err)
 		}
 		log.Printf("Setting wallpaper to %s", papePath)
 		err = papesetter.SetPape(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
+			fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
 		}
 		err = env.WriteState(papePath)
 		if err != nil {
-			log.Fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
+			fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
 		}
 		os.Exit(0)
 	}
@@ -58,11 +59,11 @@ func classicFunctionality(env *environment.Env, changeDir bool) {
 	if changeDir {
 		dirs, err := selector.ListDirectories(env.DirOfDirs())
 		if err != nil {
-			log.Fatalf("%sUnable to change wallpaper directory: %v", errprefix.Get(), err)
+			fatalf("%sUnable to change wallpaper directory: %v", errprefix.Get(), err)
 		}
 		dirToPick, err := chooser.Chooser(dirs)
 		if err != nil {
-			log.Fatalf("%sUnable to pick wallpaper directory: %v", errprefix.Get(), err)
+			fatalf("%sUnable to pick wallpaper directory: %v", errprefix.Get(), err)
 		}
 		papeDir = fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), dirToPick)
 
@@ -72,14 +73,19 @@ func classicFunctionality(env *environment.Env, changeDir bool) {
 	}
 	pape2Pick, err := selector.SelectWallpaper(papeDir)
 	if err != nil {
-		log.Fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
+		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
 	}
 	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
-		log.Fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
+		fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
 	}
 	err = env.WriteState(pape2Pick)
 	if err != nil {
-		log.Fatalf("%sUnable to write state file: %v", errprefix.Get(), err)
+		fatalf("%sUnable to write state file: %v", errprefix.Get(), err)
 	}
+}
+
+func fatalf(msg string, vars ...any) {
+	slog.Error(fmt.Sprintf(msg, vars...))
+	os.Exit(1)
 }
