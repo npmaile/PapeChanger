@@ -22,10 +22,6 @@ func main() {
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
 	flag.Parse()
 
-	env, err := environment.Initialize()
-	if err != nil {
-		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
-	}
 
 	if *setup && !*daemon {
 		filepathraw := os.Args[len(os.Args)-1]
@@ -44,6 +40,11 @@ func main() {
 			fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
 		}
 		os.Exit(0)
+	}
+	
+	env, err := environment.Initialize()
+	if err != nil {
+		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
 	}
 
 	if *daemon {
