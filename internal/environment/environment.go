@@ -1,6 +1,7 @@
 package environment
 
 import (
+	"io/fs"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -16,18 +17,10 @@ type Env struct {
 }
 
 func Initialize() (*Env, error) {
-	var statePath string
-	u, err := user.Current()
+	statePath, err := StatePath()
 	if err != nil {
 		return nil, err
 	}
-	switch runtime.GOOS {
-	case "windows":
-		statePath = filepath.Join(u.HomeDir, "AppData", "local", "papeChanger", "state")
-	default:
-		statePath = filepath.Join(u.HomeDir, ".local", "papeChanger", "state")
-	}
-
 	currentPapeRaw, err := os.ReadFile(statePath)
 	if err != nil {
 		return nil, err
@@ -41,12 +34,36 @@ func Initialize() (*Env, error) {
 
 func (e *Env) WriteState(papePath string) error {
 	e.CurrentPape = papePath
+	statePath, err := StatePath()
+	if err != nil {
+		return err
+	}
+	err = os.MkdirAll(statePath, fs.ModeDir)
+	if err != nil {
+		return err
+	}
 	f, err := os.Create(e.StatePath)
 	if err != nil {
 		return err
 	}
 	_, err = f.WriteString(papePath)
 	return err
+}
+
+func StatePath() (string, error) {
+	var statePath string
+	u, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	switch runtime.GOOS {
+	case "windows":
+		statePath = filepath.Join(u.HomeDir, "AppData", "local", "papeChanger", "state")
+	default:
+		statePath = filepath.Join(u.HomeDir, ".local", "papeChanger", "state")
+	}
+	return statePath, nil
+
 }
 
 func (e *Env) PapeDir() string {
