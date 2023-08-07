@@ -42,16 +42,7 @@ jobs:
         run: |
           $env:Path += ";C:\Program Files (x86)\WiX Toolset v3.11\bin"
           make release-win
-      - name: get release
-        id: get_release
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          latest: true
-          draft: false
-          prerelease: true
-      - name: Upluad Winodws Release Asset
+      - name: Upload Winodws Release Asset
         id: upload-windows-release-asset
         run: |
           gh release upload latest ./phonon.msi
