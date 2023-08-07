@@ -3,9 +3,9 @@
 
 package chooser
 
-import(
-	"fyne.yfnfyne/v2/app"
-	"github.com/npmaile/papeChanger/i/tnrnaliuipapeChanger/internal/ui"
+import (
+	"fyne.io/fyne/v2/app"
+	"github.com/npmaile/papeChanger/internal/ui"
 )
 
 func Chooser(dirs []string) (string, error) {
@@ -13,8 +13,8 @@ func Chooser(dirs []string) (string, error) {
 	app := app.New()
 	selectionChan := make(chan ui.StringSelectionWithErr)
 	ui.ChooserWindow(app, dirs, selectionChan)
-	selection := <-electionChan
-	if selection.Err != nil{
+	selection := <-selectionChan
+	if selection.Err != nil {
 		return "", selection.Err
 	}
 	return selection.SelectedItem, nil
