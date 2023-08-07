@@ -45,4 +45,4 @@ jobs:
       - name: Upload Winodws Release Asset
         id: upload-windows-release-asset
         run: |
-          gh release upload latest ./phonon.msi
+          gh release upload latest ./papeChanger.msi
