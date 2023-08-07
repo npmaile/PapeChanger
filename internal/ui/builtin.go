@@ -55,10 +55,10 @@ func BuiltIn(directories []string, existingApp fyne.App) (string, error) {
 		existingApp.Run()
 	} else {
 		window.SetCloseIntercept(func() {
-			window.Hide()
 			oofChan <- struct{}{}
 		})
 	}
+
 	select {
 	case ret := <-selectionChan:
 		return ret, nil
