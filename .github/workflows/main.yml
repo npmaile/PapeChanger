@@ -4,27 +4,22 @@ on:
     branches: [ master ]
   workflow_dispatch:
 jobs:
-  create-release:
+  manage-release:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: latest
-          release_name: Release latest
-          draft: false
-          prerelease: true
+      - uses: actions/checkout@v2
+      - name: manage-releases
+        run: |
+          gh release delete latest
+          gh release create latest
   build-apple:
     runs-on: macos-11
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
         with:
@@ -47,16 +42,7 @@ jobs:
         run: |
           $env:Path += ";C:\Program Files (x86)\WiX Toolset v3.11\bin"
           make release-win
-      - name: get release
-        id: get_release
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          latest: true
-          draft: false
-          prerelease: true
-      - name: Upluad Winodws Release Asset
+      - name: Upload Winodws Release Asset
         id: upload-windows-release-asset
         run: |
-          gh release upload latest ./phonon.msi
+          gh release upload latest ./papeChanger.msi

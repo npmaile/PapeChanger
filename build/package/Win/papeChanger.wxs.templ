@@ -21,7 +21,7 @@
       </DirectoryRef>
       <DirectoryRef Id="ApplicationProgramsFolder">
          <Component Id="ApplicationShortcut" Guid="*">
-            <Shortcut Id="ApplicationStartMenuShortcut" Name="PapeChanger" Description="Run the PapeChanger wallpaper changer prgogram" Target="[#papeChangerEXE]" WorkingDirectory="ProgramFolder" Icon="papeChanger_icon" />
+            <Shortcut Id="ApplicationStartMenuShortcut" Name="PapeChanger" Description="Run the PapeChanger wallpaper changer prgogram" Target="[#papeChangerEXE]" Arguments="-d" WorkingDirectory="ProgramFolder" Icon="papeChanger_icon" />
             <RemoveFolder Id="CleanupShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
             <RegistryValue Root="HKCU" Key="Software\npmaile\PapeChanger" Name="installed" Type="integer" Value="1" KeyPath="yes" />
          </Component>

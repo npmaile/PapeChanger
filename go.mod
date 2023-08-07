@@ -5,6 +5,7 @@ go 1.20
 require (
 	fyne.io/fyne/v2 v2.3.5
 	github.com/cloudflare/ahocorasick v0.0.0-20210425175752-730270c3e184
+	github.com/google/uuid v1.1.2
 	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b
 	golang.org/x/sys v0.9.0
 )

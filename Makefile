@@ -34,8 +34,9 @@ release-mac: mkdir
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
 	go run extra/wxsgenerator/generator.go build/package/Win/papeChanger.wxs.templ > ./build/release/Win/papeChanger.wxs
+	cp ".\assets/icon.ico" ".\build\release\win"
 	candle.exe ".\build\release\win\papeChanger.wxs" -ext WixUtilExtension -ext wixUIExtension -arch x64 -o build/release/win/papeChanger.wixobj
-	light.exe ".\build\release\win\papeChanger.wixobj" -b ".\build\release\win;.\assets\icon.ico" -ext wixUIExtension  -ext WixUtilExtension -spdb
+	light.exe ".\build\release\win\papeChanger.wixobj" -b ".\build\release\win;.\assets" -ext wixUIExtension  -ext WixUtilExtension -spdb
 
 clean:
 	rm -rf build/bin/*
