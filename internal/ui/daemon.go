@@ -76,6 +76,7 @@ func RunDaemon(env *environment.Env, setup bool) {
 			}),
 		)
 		desk.SetSystemTrayMenu(m)
+		desk.SetSystemTrayIcon(fyne.NewStaticResource("icon", iconPng))
 	}
 
 	if setup {
