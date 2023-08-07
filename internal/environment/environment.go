@@ -1,7 +1,6 @@
 package environment
 
 import (
-	"io/fs"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -16,7 +15,20 @@ type Env struct {
 	StatePath string
 }
 
-func Initialize() (*Env, error) {
+func InitializeState(firstPape string) (*Env, error) {
+	statePath, err := StatePath()
+	if err != nil{
+		return nil, err
+	}
+	e := Env{StatePath:statePath,CurrentPape:firstPape}
+	err = e.WriteState(firstPape)
+	if err != nil{
+		return nil, err
+	}
+	return GetState()
+}
+
+func GetState() (*Env, error) {
 	statePath, err := StatePath()
 	if err != nil {
 		return nil, err
@@ -38,7 +50,8 @@ func (e *Env) WriteState(papePath string) error {
 	if err != nil {
 		return err
 	}
-	err = os.MkdirAll(statePath, fs.ModeDir)
+	statePath = filepath.Dir(statePath)
+	err = os.MkdirAll(statePath, 0777)
 	if err != nil {
 		return err
 	}

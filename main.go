@@ -22,11 +22,13 @@ func main() {
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
 	flag.Parse()
 
+	var env *environment.Env
+	var err error
 
 	if *setup && !*daemon {
 		filepathraw := os.Args[len(os.Args)-1]
 		var papePath string
-		papePath, err := filepath.Abs(filepathraw)
+		papePath, err = filepath.Abs(filepathraw)
 		if err != nil {
 			fatalf("%sUnable to find file %s: %v", errprefix.Get(), filepathraw, err)
 		}
@@ -35,14 +37,15 @@ func main() {
 		if err != nil {
 			fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
 		}
-		err = env.WriteState(papePath)
+		_, err = environment.InitializeState(papePath)
 		if err != nil {
 			fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
 		}
 		os.Exit(0)
+	} else {
+		env, err = environment.GetState()
 	}
-	
-	env, err := environment.Initialize()
+
 	if err != nil {
 		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
 	}
