@@ -20,12 +20,15 @@ func SetPape(s string) error {
 
 func getDesktop() DE {
 	switch os.Getenv("XDG_CURRENT_DESKTOP") {
-	case "XFCE":
+  case "XFCE":
 
-		return de.Xfce{}
+    return de.Xfce{}
 
-	case "KDE":
-		return de.Plasma{}
+  case "KDE":
+    return de.Plasma{}
+
+  case "i3":
+    return de.I3{}
 	}
 
 	nextAttempt, err := checkViaPS()
@@ -37,6 +40,7 @@ func getDesktop() DE {
 	case "sway":
 		return de.Sway{}
 	}
+
 
 	return deNotFound{}
 
