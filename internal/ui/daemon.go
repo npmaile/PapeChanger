@@ -54,15 +54,15 @@ func RunDaemon(env *environment.Env, setup bool) {
 					log.Printf("unable to change directory :%s", err.Error())
 					return
 				}
-				selectionChan := make(chan stringSelectionWithErr, 1)
+				selectionChan := make(chan StringSelectionWithErr, 1)
 				ChooserWindow(a, dirs, selectionChan)
 				selection := <-selectionChan
-				if selection.err != nil {
-					log.Printf("unable to retrieve directory selection: %s", selection.err.Error())
+				if selection.Err != nil {
+					log.Printf("unable to retrieve directory selection: %s", selection.Err.Error())
 					return
 				}
 
-				selectionFullPath := fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selection.selectedItem)
+				selectionFullPath := fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selection.SelectedItem)
 				nextPape, err := selector.SelectWallpaper(selectionFullPath)
 				if err != nil {
 					log.Printf("unable to change wallpaper: %s", err.Error())
@@ -85,38 +85,38 @@ func RunDaemon(env *environment.Env, setup bool) {
 	}
 
 	if setup {
-		selection := make(chan stringSelectionWithErr, 1)
+		selection := make(chan StringSelectionWithErr, 1)
 		SetupWindow(a, selection)
 		s := <-selection
-		if s.err != nil {
+		if s.Err != nil {
 			//todo: something
 		}
-		env.WriteState(s.selectedItem)
-		papesetter.SetPape(s.selectedItem)
+		env.WriteState(s.SelectedItem)
+		papesetter.SetPape(s.SelectedItem)
 	}
 	a.Run()
 }
 
-type stringSelectionWithErr struct {
-	err          error
-	selectedItem string
+type StringSelectionWithErr struct {
+	Err          error
+	SelectedItem string
 }
 
-func SetupWindow(app fyne.App, selectedPapePath chan stringSelectionWithErr) {
+func SetupWindow(app fyne.App, selectedPapePath chan StringSelectionWithErr) {
 	window := app.NewWindow("Select a wallpaper")
 	dialog.NewFileOpen(
 		func(rc fyne.URIReadCloser, e error) {
 			if e != nil {
-				selectedPapePath <- stringSelectionWithErr{err: e, selectedItem: ""}
+				selectedPapePath <- StringSelectionWithErr{Err: e, SelectedItem: ""}
 			}
-			selectedPapePath <- stringSelectionWithErr{selectedItem: rc.URI().Path()}
+			selectedPapePath <- StringSelectionWithErr{SelectedItem: rc.URI().Path()}
 
 		},
 		window)
 	window.Show()
 }
 
-func ChooserWindow(app fyne.App, directories []string, selectionChan chan stringSelectionWithErr) {
+func ChooserWindow(app fyne.App, directories []string, selectionChan chan StringSelectionWithErr) {
 	fmt.Printf("lengh passed to chooser window: %d\n", len(directories))
 	window := app.NewWindow("select directory")
 	cont := container.New(layout.NewVBoxLayout())
@@ -124,7 +124,7 @@ func ChooserWindow(app fyne.App, directories []string, selectionChan chan string
 		var item = item
 		listItem := widget.NewButton(item, func() {
 			go func(item string) {
-				selectionChan <- stringSelectionWithErr{selectedItem: item}
+				selectionChan <- StringSelectionWithErr{SelectedItem: item}
 			}(item)
 			window.Hide()
 			window.Close()
@@ -132,7 +132,7 @@ func ChooserWindow(app fyne.App, directories []string, selectionChan chan string
 		cont.Add(listItem)
 	}
 	window.SetCloseIntercept(func() {
-		selectionChan <- stringSelectionWithErr{err: errors.New("window closed without selection")}
+		selectionChan <- StringSelectionWithErr{Err: errors.New("window closed without selection")}
 		window.Hide()
 		window.Close()
 	})
