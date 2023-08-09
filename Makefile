@@ -18,7 +18,7 @@ windows-build:
 release-mac: mkdir
 	go get ./...
 	mkdir -p ./build/release/MacOS/
-	cp -R ./build/package/Mac/PapeChanger.app ./build/release/MacOS/PapeChanger.app
+	cp -R ./build/package/Mac/PapeChanger.app.template ./build/release/MacOS/PapeChanger.app
 	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/arm64_papeChanger main.go
 	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/amd64_papeChanger main.go
 	create-dmg \
