@@ -26,6 +26,9 @@ func getDesktop() DE {
 
 	case "KDE":
 		return de.Plasma{}
+
+	case "i3":
+		return de.I3{}
 	}
 
 	nextAttempt, err := checkViaPS()
