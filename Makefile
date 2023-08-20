@@ -15,12 +15,15 @@ build: mkdir
 windows-build:
 	go build -o build/bin/papeChanger.exe main.go
 
-release-mac: mkdir
+release-mac: mkdir clean
 	go get ./...
 	mkdir -p ./build/release/MacOS/
+	mkdir -p ./build/bin/MacOS/
 	cp -R ./build/package/Mac/PapeChanger.app.template ./build/release/MacOS/PapeChanger.app
-	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/arm64_papeChanger main.go
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/amd64_papeChanger main.go
+	mkdir -p ./build/release/MacOS/PapeChanger.app/Contents/MacOS
+	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/bin/MacOS/arm64_papeChanger main.go
+	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/bin/MacOS/amd64_papeChanger main.go
+	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/release/MacOS/PapeChanger.app/Contents/MacOS/papeChanger
 	create-dmg \
 		--app-drop-link 450 200 \
 		--icon "PapeChanger.app" 150 200\
