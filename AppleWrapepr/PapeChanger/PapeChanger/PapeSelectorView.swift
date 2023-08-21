@@ -25,13 +25,12 @@ struct PapeSelectorView: View {
                 return
             }
             if papePicker.url != nil && papePicker.url!.isFileURL{
-                print(papePicker.url)
-                let filename = papePicker.url!.standardizedFileURL.absoluteString
+                let filename = papePicker.url!.standardizedFileURL.path().removingPercentEncoding
                 let task = Process()
                 
-                let helper = Bundle.main.path(forAuxiliaryExecutable: "helper")
+                let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
                 task.executableURL = URL(fileURLWithPath: helper!)
-                task.arguments = ["--setup", filename]
+                task.arguments = ["--setup", filename!]
                 task.standardInput = nil
                 task.launch()
                 task.waitUntilExit()
