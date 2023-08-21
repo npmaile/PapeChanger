@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PapeSelectorView: View {
-@Environment(\.dismiss) private var dismiss
- var body: some View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
         VStack{
             Text("Please Pick a Wallpaper")
             HStack{
@@ -27,10 +27,12 @@ struct PapeSelectorView: View {
             if papePicker.url != nil && papePicker.url!.isFileURL{
                 let filename = papePicker.url!.standardizedFileURL.absoluteString
                 let task = Process()
-                    task.launchPath = "papeChanger"
-                    task.arguments = ["--setup", filename]
-                    task.standardInput = nil
-                    task.launch()
+                
+                let helper = Bundle.main.path(forAuxiliaryExecutable: "helper")
+                task.executableURL = URL(fileURLWithPath: helper!)
+                task.arguments = ["--setup", filename]
+                task.standardInput = nil
+                task.launch()
                 task.waitUntilExit()
                 dismiss()
             }

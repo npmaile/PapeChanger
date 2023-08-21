@@ -29,16 +29,20 @@ struct PapeChangerApp: App {
 
 func ChangePapeDir() -> Void{
     let task = Process()
-        task.arguments = ["-c"]
-        task.launchPath = "papeChanger"
-        task.standardInput = nil
-        task.launch()
+    task.arguments = ["-c"]
+    
+    let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
+    task.executableURL = URL(fileURLWithPath: helper!)
+    task.standardInput = nil
+    task.launch()
 }
 
 func ChangePape() -> Void{
     let task = Process()
-        task.launchPath = "papeChanger"
-        task.standardInput = nil
-        task.launch()
+    
+    let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
+    task.executableURL = URL(fileURLWithPath: helper!)
+    task.standardInput = nil
+    task.launch()
 }
 

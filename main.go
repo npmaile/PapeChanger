@@ -49,7 +49,6 @@ func main() {
 	if err != nil {
 		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
 	}
-	ui.RunDaemon(env, *setup)
 
 	if *daemon {
 		fmt.Println(env.DirOfDirs())

@@ -15,16 +15,18 @@ build: mkdir
 windows-build:
 	go build -o build/bin/papeChanger.exe main.go
 
-release-mac: mkdir clean
-	go get ./...
-	mkdir -p ./build/release/MacOS/
+build-mac: mkdir clean
 	mkdir -p ./build/bin/MacOS/
+	/opt/homebrew/bin/go get ./...
+	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 /opt/homebrew/bin/go build -o build/bin/MacOS/arm64_papeChanger main.go
+	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 /opt/homebrew/bin/go build -o build/bin/MacOS/amd64_papeChanger main.go
+	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
+
+release-mac: mkdir clean
+	mkdir -p ./build/release/MacOS/
 	cp -R ./build/package/Mac/PapeChanger.app.template ./build/release/MacOS/PapeChanger.app
 	mkdir -p ./build/release/MacOS/PapeChanger.app/Contents/MacOS
-	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/bin/MacOS/arm64_papeChanger main.go
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/bin/MacOS/amd64_papeChanger main.go
-	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/release/MacOS/PapeChanger.app/Contents/MacOS/papeChanger
-	create-dmg \
+		create-dmg \
 		--app-drop-link 450 200 \
 		--icon "PapeChanger.app" 150 200\
 		--volname "PapeChanger Installer" \
