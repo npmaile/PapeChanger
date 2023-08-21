@@ -136,6 +136,7 @@ func ChooserWindow(app fyne.App, directories []string, selectionChan chan String
 		window.Hide()
 		window.Close()
 	})
+	fmt.Println("here")
 
 	window.SetContent(container.NewScroll(cont))
 	window.Resize(fyne.NewSize(600, 400))

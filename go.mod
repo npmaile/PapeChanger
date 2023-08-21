@@ -1,12 +1,12 @@
 module github.com/npmaile/papeChanger
 
-go 1.20
+go 1.21
 
 require (
 	fyne.io/fyne/v2 v2.3.5
 	github.com/cloudflare/ahocorasick v0.0.0-20210425175752-730270c3e184
-	github.com/google/uuid v1.3.0
-	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb
+	github.com/google/uuid v1.3.1
+	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63
 	golang.org/x/sys v0.11.0
 )
 
@@ -31,9 +31,9 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tevino/abool v1.2.0 // indirect
-	github.com/yuin/goldmark v1.5.5 // indirect
+	github.com/yuin/goldmark v1.5.6 // indirect
 	golang.org/x/image v0.11.0 // indirect
-	golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda // indirect
+	golang.org/x/mobile v0.0.0-20230818142238-7088062f872d // indirect
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

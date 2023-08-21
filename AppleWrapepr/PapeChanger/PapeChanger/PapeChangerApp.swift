@@ -30,7 +30,6 @@ struct PapeChangerApp: App {
 func ChangePapeDir() -> Void{
     let task = Process()
     task.arguments = ["-c"]
-    
     let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
     task.executableURL = URL(fileURLWithPath: helper!)
     task.standardInput = nil

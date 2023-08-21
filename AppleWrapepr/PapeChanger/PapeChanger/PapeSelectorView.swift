@@ -25,6 +25,7 @@ struct PapeSelectorView: View {
                 return
             }
             if papePicker.url != nil && papePicker.url!.isFileURL{
+                print(papePicker.url)
                 let filename = papePicker.url!.standardizedFileURL.absoluteString
                 let task = Process()
                 
