@@ -12,6 +12,7 @@ import Foundation
 struct PapeChangerApp: App {
     @State private var showPicker: Bool = false
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismiss) private var dismiss
     var body: some Scene {
         MenuBarExtra("PapeChanger", systemImage: "\("p").circle") {
             Button("Change Wallpaper") { ChangePape() }
@@ -26,7 +27,7 @@ struct PapeChangerApp: App {
     }
 }
 
-func ChangePapeDir(){
+func ChangePapeDir() -> Void{
     let task = Process()
         task.arguments = ["-c"]
         task.launchPath = "papeChanger"
@@ -34,7 +35,7 @@ func ChangePapeDir(){
         task.launch()
 }
 
-func ChangePape(){
+func ChangePape() -> Void{
     let task = Process()
         task.launchPath = "papeChanger"
         task.standardInput = nil

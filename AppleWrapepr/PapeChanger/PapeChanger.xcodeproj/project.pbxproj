@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */; };
 		4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BADBCD12A889397000FFF96 /* Assets.xcassets */; };
-		4BADBCD52A889397000FFF96 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BADBCD42A889397000FFF96 /* Preview Assets.xcassets */; };
 		4BD7126C2A89F21200974AC8 /* PapeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -17,7 +16,6 @@
 		4BADBCCA2A889396000FFF96 /* PapeChanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PapeChanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PapeChangerApp.swift; sourceTree = "<group>"; };
 		4BADBCD12A889397000FFF96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4BADBCD42A889397000FFF96 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4BADBCD62A889397000FFF96 /* PapeChanger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PapeChanger.entitlements; sourceTree = "<group>"; };
 		4BADBCDC2A889C46000FFF96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PapeSelectorView.swift; sourceTree = "<group>"; };
@@ -57,18 +55,9 @@
 				4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */,
 				4BADBCD12A889397000FFF96 /* Assets.xcassets */,
 				4BADBCD62A889397000FFF96 /* PapeChanger.entitlements */,
-				4BADBCD32A889397000FFF96 /* Preview Content */,
 				4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */,
 			);
 			path = PapeChanger;
-			sourceTree = "<group>";
-		};
-		4BADBCD32A889397000FFF96 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				4BADBCD42A889397000FFF96 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,7 +139,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BADBCD52A889397000FFF96 /* Preview Assets.xcassets in Resources */,
 				4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
