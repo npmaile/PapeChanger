@@ -43,6 +43,7 @@ func Chooser(directories []string) (string, error) {
 	app := app.New()
 	selectionChan := make(chan ui.StringSelectionWithErr)
 	ui.ChooserWindow(app, directories, selectionChan)
+	app.Run()
 	selection := <-selectionChan
 	if selection.Err != nil {
 		return "", selection.Err
