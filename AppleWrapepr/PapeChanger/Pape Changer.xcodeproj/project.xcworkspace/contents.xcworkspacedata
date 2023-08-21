@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/Pape Changer.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>
