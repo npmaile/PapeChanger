@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct PapeSelectorView: View {
     @Environment(\.dismiss) private var dismiss
@@ -20,6 +21,13 @@ struct PapeSelectorView: View {
     
     func selectPape(){
         let papePicker = NSOpenPanel()
+        papePicker.canChooseFiles = true
+        papePicker.canChooseDirectories = false
+        papePicker.allowsMultipleSelection = false
+        papePicker.canDownloadUbiquitousContents = false
+        papePicker.prompt = "Please choose wallpaper"
+        papePicker.title = "Please Choose a Wallpaper"
+        papePicker.allowedContentTypes = [UniformTypeIdentifiers.UTType.image]
         papePicker.begin{result in
             if result.rawValue == 0{
                 return
