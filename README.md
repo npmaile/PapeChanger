@@ -25,6 +25,7 @@ I will be supporting systems as I become aware of them. The two things necessary
 - [x] Windows
 - [x] Mac
 - [x] Linux/Sway
+- [x] Linux/i3wm
 - [x] Linux/XFCE
 - [x] Linux/KDE
 - [ ] Linux/x11-generic
