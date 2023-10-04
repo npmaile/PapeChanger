@@ -17,12 +17,12 @@ type Env struct {
 
 func InitializeState(firstPape string) (*Env, error) {
 	statePath, err := StatePath()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
-	e := Env{StatePath:statePath,CurrentPape:firstPape}
+	e := Env{StatePath: statePath, CurrentPape: firstPape}
 	err = e.WriteState(firstPape)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	return GetState()
