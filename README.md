@@ -28,8 +28,8 @@ I will be supporting systems as I become aware of them. The two things necessary
 - [x] Linux/i3wm
 - [x] Linux/XFCE
 - [x] Linux/KDE
+- [x] Linux/Gnome
 - [ ] Linux/x11-generic
-- [ ] Linux/Gnome
 - [ ] Linux/Mate
 - [ ] Linux/Cinnamon
 - [ ] Linux/Budgie
