@@ -15,7 +15,7 @@ func (I3) SetPape(s string) error {
 		return fmt.Errorf("PATH not found")
 	}
 	paths := strings.Split(pathVar, ":")
-
+  
 	for _, path := range paths {
 		files, err := os.ReadDir(path)
 		if err != nil {

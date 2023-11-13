@@ -40,10 +40,8 @@ func SelectWallpaperInOrder(papeDir string, currentWallpaperFullPath string) (st
 		if entry.Name() == currentPape {
 			if index >= len(papeCandidates)-1 {
 				ret = papeCandidates[0].Name()
-				fmt.Println("bbbbbbbbbb")
 			} else {
 				ret = papeCandidates[index+1].Name()
-				fmt.Println("aaaaaaa" + ret)
 			}
 		}
 	}
