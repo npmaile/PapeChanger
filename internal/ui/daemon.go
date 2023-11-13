@@ -39,7 +39,7 @@ func RunDaemon(env *environment.Env, setup bool) {
 	if desk, ok := a.(desktop.App); ok {
 		m := fyne.NewMenu("PapeChanger",
 			fyne.NewMenuItem("Change Wallpaper", func() {
-				nextPape, err := selector.SelectWallpaper(env.PapeDir())
+				nextPape, err := selector.SelectWallpaperRandom(env.PapeDir())
 				if err != nil {
 					log.Printf("unable to change wallpaper: %s", err.Error())
 					return
@@ -63,7 +63,7 @@ func RunDaemon(env *environment.Env, setup bool) {
 				}
 
 				selectionFullPath := fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selection.SelectedItem)
-				nextPape, err := selector.SelectWallpaper(selectionFullPath)
+				nextPape, err := selector.SelectWallpaperRandom(selectionFullPath)
 				if err != nil {
 					log.Printf("unable to change wallpaper: %s", err.Error())
 					return

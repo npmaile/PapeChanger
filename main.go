@@ -20,6 +20,7 @@ func main() {
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	setup := flag.Bool("setup", false, "set walpaper for the first time")
+	randomize := flag.Bool("randomize", false, "select a random wallpaper instead of going through the list of wallpapers directly")
 	flag.Parse()
 
 	var env *environment.Env
@@ -51,14 +52,13 @@ func main() {
 	}
 
 	if *daemon {
-		fmt.Println(env.DirOfDirs())
 		ui.RunDaemon(env, *setup)
 	} else {
-		classicFunctionality(env, *changeDir)
+		classicFunctionality(env, *randomize, *changeDir)
 	}
 }
 
-func classicFunctionality(env *environment.Env, changeDir bool) {
+func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) {
 	var papeDir string
 	if changeDir {
 		dirs, err := selector.ListDirectories(env.DirOfDirs())
@@ -75,7 +75,14 @@ func classicFunctionality(env *environment.Env, changeDir bool) {
 	if papeDir == "" {
 		papeDir = env.PapeDir()
 	}
-	pape2Pick, err := selector.SelectWallpaper(papeDir)
+	var pape2Pick string
+	var err error
+	if randomize {
+		pape2Pick, err = selector.SelectWallpaperRandom(papeDir)
+	} else {
+		pape2Pick, err = selector.SelectWallpaperInOrder(papeDir, env.CurrentPape)
+	}
+
 	if err != nil {
 		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
 	}
