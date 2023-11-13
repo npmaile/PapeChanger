@@ -1,3 +1,4 @@
+description: "Ci pipeline"
 name: CI
 on:
   push:
