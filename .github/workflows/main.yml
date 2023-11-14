@@ -49,11 +49,10 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-  
+      - name: Install dmg maker
+        run: brew install create-dmg
       - name: Create Apple dmg asset
         run: |
-          go version
-          which go
           make release-mac
       - name: Upload apple release asset
         id: upload-apple-release-asset

@@ -24,6 +24,15 @@ build-mac: mkdir clean
 
 release-mac: mkdir clean
 	cd AppleWrapepr/PapeChanger && xcodebuild -configuration Release
+	create-dmg \
+		--app-drop-link 450 200 \
+		--icon "PapeChanger.app" 150 200\
+		--volname "PapeChanger Installer" \
+		--hide-extension "PapeChanger.app" \
+		--window-size 600 400 \
+		--background "./assets/MacOS/installer_background.png" \
+		./build/release/MacOS/PapeChanger.dmg \
+  		./AppleWrapepr/PapeChanger/build/Release/Pape\ Changer.app
 	
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
