@@ -15,7 +15,7 @@ jobs:
           gh release delete latest
           gh release create latest
   build-apple:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v2
       - name: Install apple certificate and provisioning profile
