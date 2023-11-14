@@ -55,6 +55,7 @@ jobs:
       - name: Upload apple release asset
         id: upload-apple-release-asset
         run: |
+          go version
           gh release upload latest ./AppleWrapper/PapeChanger/build/Release/Pape\ Changer.dmg
   build-windows:
     runs-on: windows-latest
