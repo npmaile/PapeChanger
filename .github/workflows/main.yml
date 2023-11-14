@@ -53,6 +53,7 @@ jobs:
       - name: Create Apple dmg asset
         run: |
           go version
+          which go
           make release-mac
       - name: Upload apple release asset
         id: upload-apple-release-asset
