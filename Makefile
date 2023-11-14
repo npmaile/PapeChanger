@@ -15,22 +15,16 @@ build: mkdir
 windows-build:
 	go build -o build/bin/papeChanger.exe main.go
 
-release-mac: mkdir
-	go get ./...
-	mkdir -p ./build/release/MacOS/
-	cp -R ./build/package/Mac/PapeChanger.app ./build/release/MacOS/PapeChanger.app
-	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/arm64_papeChanger main.go
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/release/MacOS/PapeChanger.app/Contents/MacOS/amd64_papeChanger main.go
-	create-dmg \
-		--app-drop-link 450 200 \
-		--icon "PapeChanger.app" 150 200\
-		--volname "PapeChanger Installer" \
-		--hide-extension "PapeChanger.app" \
-		--window-size 600 400 \
-		--background "./assets/MacOS/installer_background.png" \
-		./build/release/MacOS/PapeChanger.dmg \
-		./build/release/MacOS/PapeChanger.app
+build-mac: mkdir clean
+	mkdir -p ./build/bin/MacOS/
+	/opt/homebrew/bin/go get ./...
+	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 /opt/homebrew/bin/go build -o build/bin/MacOS/arm64_papeChanger main.go
+	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 /opt/homebrew/bin/go build -o build/bin/MacOS/amd64_papeChanger main.go
+	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
 
+release-mac: mkdir clean
+	cd AppleWrapepr/PapeChanger && xcodebuild -configuration Release
+	
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
 	go run extra/wxsgenerator/generator.go build/package/Win/papeChanger.wxs.templ > ./build/release/Win/papeChanger.wxs

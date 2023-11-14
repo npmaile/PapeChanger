@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0.0">
+<plist version="1.0">
 <dict>
 	<key>CFBundleExecutable</key>
-	<string>papeChanger-launcher</string>
+	<string>papeChanger</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.npmaile.papeChanger</string>
+	<key>CFBundleName</key>
+	<string>PapeChanger</string>
+	<key>CFBundleDisplayName</key>
+	<string>PapeChanger</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>LSUIElement</key>
 	<true/>
+
 </dict>
 </plist>

@@ -2,3 +2,5 @@ main
 build/bin/*
 build/release/*
 phonon.dmg
+.DS_Store
+AppleWrapepr/PapeChanger/build/*
