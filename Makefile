@@ -23,6 +23,7 @@ build-mac: mkdir clean
 	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
 
 release-mac: mkdir clean
+	brew install go
 	cd AppleWrapepr/PapeChanger && xcodebuild -configuration Release
 	
 release-win:
