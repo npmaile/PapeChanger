@@ -51,11 +51,12 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
   
       - name: Create Apple dmg asset
-        run: make release-mac
+        run: |
+          go version
+          make release-mac
       - name: Upload apple release asset
         id: upload-apple-release-asset
         run: |
-          go version
           gh release upload latest ./AppleWrapper/PapeChanger/build/Release/Pape\ Changer.dmg
   build-windows:
     runs-on: windows-latest
