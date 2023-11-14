@@ -18,6 +18,7 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v4
       - name: Install apple certificate and provisioning profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
