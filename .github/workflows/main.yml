@@ -16,6 +16,8 @@ jobs:
           gh release create latest
   build-apple:
     runs-on: macos-13
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v4
