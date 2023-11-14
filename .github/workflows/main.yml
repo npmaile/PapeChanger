@@ -17,6 +17,7 @@ jobs:
   build-apple:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install apple certificate and provisioning profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
