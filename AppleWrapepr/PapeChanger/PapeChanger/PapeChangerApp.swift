@@ -14,7 +14,7 @@ struct PapeChangerApp: App {
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
     var body: some Scene {
-        MenuBarExtra("PapeChanger",SystemImage: square.stack.3d.down.forward.fill) {
+        MenuBarExtra("PapeChanger", systemImage: "square.on.square.fill") {
             Button("Change Wallpaper") { ChangePape() }
             Button("Change Wallpaper Directory") { ChangePapeDir() }
             Button("Pick Wallpaper") { openWindow(id:"selector") }
