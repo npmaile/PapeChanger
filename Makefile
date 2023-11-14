@@ -26,9 +26,9 @@ release-mac: mkdir clean
 	cd AppleWrapepr/PapeChanger && xcodebuild -configuration Release
 	create-dmg \
 		--app-drop-link 450 200 \
-		--icon "PapeChanger.app" 150 200\
+		--icon "Pape Changer.app" 150 200\
 		--volname "PapeChanger Installer" \
-		--hide-extension "PapeChanger.app" \
+		--hide-extension "Pape Changer.app" \
 		--window-size 600 400 \
 		--background "./assets/MacOS/installer_background.png" \
 		./build/release/MacOS/PapeChanger.dmg \
