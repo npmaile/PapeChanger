@@ -1,6 +1,6 @@
 main
 build/bin/*
 build/release/*
-phonon.dmg
+PapeChanger.dmg
 .DS_Store
 AppleWrapepr/PapeChanger/build/*
