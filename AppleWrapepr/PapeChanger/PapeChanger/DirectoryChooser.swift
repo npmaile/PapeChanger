@@ -16,10 +16,6 @@ struct DirectoryChooser: View {
     }
 }
 
-#Preview {
-    DirectoryChooser()
-}
-
 struct dirslist: View{
     var dirs: [Dir]
     
