@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B39B1252B05AC130046CD14 /* DirectoryChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */; };
+		4B73231B2B0DA10900F3D87C /* utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73231A2B0DA10900F3D87C /* utility.swift */; };
 		4B881B782A9340700053ED40 /* papechanger in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B881B772A9340700053ED40 /* papechanger */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */; };
 		4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BADBCD12A889397000FFF96 /* Assets.xcassets */; };
@@ -37,6 +39,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryChooser.swift; sourceTree = "<group>"; };
+		4B73231A2B0DA10900F3D87C /* utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utility.swift; sourceTree = "<group>"; };
 		4B881B772A9340700053ED40 /* papechanger */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = papechanger; path = ../../build/bin/MacOS/papechanger; sourceTree = "<group>"; };
 		4BADBCCA2A889396000FFF96 /* Pape Changer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pape Changer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PapeChangerApp.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 				4BADBCD12A889397000FFF96 /* Assets.xcassets */,
 				4BADBCD62A889397000FFF96 /* PapeChanger.entitlements */,
 				4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */,
+				4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */,
+				4B73231A2B0DA10900F3D87C /* utility.swift */,
 			);
 			path = PapeChanger;
 			sourceTree = "<group>";
@@ -133,7 +139,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					4BADBCC92A889396000FFF96 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -178,6 +184,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B73231B2B0DA10900F3D87C /* utility.swift in Sources */,
+				4B39B1252B05AC130046CD14 /* DirectoryChooser.swift in Sources */,
 				4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */,
 				4BD7126C2A89F21200974AC8 /* PapeSelectorView.swift in Sources */,
 			);
@@ -228,10 +236,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUGGING_SYMBOLS = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -247,7 +257,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -292,10 +302,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUGGING_SYMBOLS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -305,7 +317,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = papeChanger;
@@ -325,6 +337,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.1.0;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PapeChanger/Preview Content\"";
 				DEVELOPMENT_TEAM = 3DNY5UUXGQ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -359,6 +372,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.1.0;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PapeChanger/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 3DNY5UUXGQ;
@@ -390,6 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUGGING_SYMBOLS = NO;
 				DEBUG_INFORMATION_FORMAT = "";
 				DEVELOPMENT_TEAM = 3DNY5UUXGQ;
@@ -405,6 +420,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUGGING_SYMBOLS = NO;
 				DEBUG_INFORMATION_FORMAT = "";
 				DEVELOPMENT_TEAM = 3DNY5UUXGQ;

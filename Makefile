@@ -17,9 +17,9 @@ windows-build:
 
 build-mac: mkdir clean
 	mkdir -p ./build/bin/MacOS/
-	go get ./...
-	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 go build -o build/bin/MacOS/arm64_papeChanger main.go
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/bin/MacOS/amd64_papeChanger main.go
+	/opt/homebrew/bin/go get ./...
+	GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 /opt/homebrew/bin/go build -o build/bin/MacOS/arm64_papeChanger main.go
+	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 /opt/homebrew/bin/go build -o build/bin/MacOS/amd64_papeChanger main.go
 	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
 
 release-mac: mkdir clean

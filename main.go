@@ -19,6 +19,8 @@ import (
 func main() {
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
+	listDirOfDirs := flag.Bool("papeDirsDir", false, "interrogate the command line application to determine the directory containing all wallpaper directories")
+	selectDir := flag.String("directory", "", "manually set the directory to be used by papechanger and change the wallpaper to one in it")
 	setup := flag.Bool("setup", false, "-setup <path> provide a path to the directory with image files\n\n"+
 		"Typically you would set this up like this:\n\n"+
 		"wallpapers\n"+
@@ -35,6 +37,34 @@ func main() {
 
 	var env *environment.Env
 	var err error
+
+	if *listDirOfDirs {
+		env, err = environment.GetState()
+		if err != nil {
+			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
+		}
+		fmt.Println(env.DirOfDirs())
+		return
+	}
+
+	if selectDir != nil && *selectDir != "" {
+		env, err = environment.GetState()
+		if err != nil {
+			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
+		}
+		var pape string
+		pape, err = selector.SelectWallpaperRandom(*selectDir)
+		if err != nil {
+			fatalf("%sUnable to select a wallpaper: %v", errprefix.Get(), err)
+		}
+		err = papesetter.SetPape(pape)
+		if err != nil {
+			fatalf("%sUnalbe to set wallpaper: %v", errprefix.Get(), err)
+		}
+		env.WriteState(pape)
+
+		return
+	}
 
 	if *setup && !*daemon {
 
