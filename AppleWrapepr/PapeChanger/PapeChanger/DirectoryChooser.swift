@@ -41,6 +41,7 @@ struct Dir: View, Identifiable{
     var path: String
     var displayName: String
     var id: String { path }
+    
     init(path: String){
         self.path = path
         let sp = path.split(separator: "/")
@@ -50,7 +51,9 @@ struct Dir: View, Identifiable{
     
     var body: some View{
         HStack{
-            Button(displayName, action: changePapeDir)
+            Button(action: changePapeDir){
+                Text(displayName)
+            }
         }
     }
     
