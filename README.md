@@ -16,6 +16,7 @@ Once you've confirmed it works on your system, you will want to bind `papeChange
 # Building
 ## Minimum Requirements
 - A functioning go environment
+- All of the [requirements](https://developer.fyne.io/started/) to build the [fyne](https://fyne.io/) toolkit
 ## Windows
 It has a graphical component that requires a c compiler on windows
 Once you have one installed (only on windows), you can simply build using `go build -o papeChanger main.go`
