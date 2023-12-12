@@ -20,6 +20,7 @@ Once you've confirmed it works on your system, you will want to bind `papeChange
 ## Minimum Requirements
 
 - A functioning go environment
+- All of the [requirements](https://developer.fyne.io/started/) to build the [fyne](https://fyne.io/) toolkit
 
 ## Windows
 
