@@ -22,6 +22,11 @@ Once you've confirmed it works on your system, you will want to bind `papeChange
 - A functioning go environment
 - All of the [requirements](https://developer.fyne.io/started/) to build the [fyne](https://fyne.io/) toolkit
 
+## Minimum Requirements (lite edition)
+- A functioning go environment
+- Rofi installed
+can be built by running `cd extra/papeChanger-lite && CGO_ENABLED=0 go build -o papechanger`
+
 ## Windows
 
 It has a graphical component that requires a c compiler on windows
