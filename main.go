@@ -33,6 +33,7 @@ func main() {
 		"    ├── gtr.jpg\n"+
 		"    └── wrx.jpg\n")
 	randomize := flag.Bool("randomize", false, "select a random wallpaper instead of going through the list of wallpapers directly")
+    papeDownload := flag.Bool("url", false, "-url <URL> provide a valid URL to the image you wish to download\n")
 	flag.Parse()
 
 	var env *environment.Env
@@ -104,11 +105,11 @@ func main() {
 	if *daemon {
 		ui.RunDaemon(env, *setup)
 	} else {
-		classicFunctionality(env, *randomize, *changeDir)
+		classicFunctionality(env, *randomize, *changeDir, *papeDownload)
 	}
 }
 
-func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) {
+func classicFunctionality(env *environment.Env, randomize bool, changeDir bool, papeDownload bool) {
 	var papeDir string
 	if changeDir {
 
@@ -132,11 +133,14 @@ func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) 
 
 	var pape2Pick string
 	var err error
-	if randomize {
-		pape2Pick, err = selector.SelectWallpaperRandom(papeDir)
-	} else {
-		pape2Pick, err = selector.SelectWallpaperInOrder(papeDir, env.CurrentPape)
-	}
+    if randomize {
+        pape2Pick, err = selector.SelectWallpaperRandom(papeDir)
+    } else if papeDownload {
+        url := os.Args[len(os.Args)-1]
+        pape2Pick, err = selector.SelectDownloadedWallpaper(papeDir, url)
+    } else {
+        pape2Pick, err = selector.SelectWallpaperInOrder(papeDir, env.CurrentPape)
+    }
 
 	if err != nil {
 		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
@@ -156,3 +160,4 @@ func fatalf(msg string, vars ...any) {
 	slog.Error(fmt.Sprintf(msg, vars...))
 	os.Exit(1)
 }
+

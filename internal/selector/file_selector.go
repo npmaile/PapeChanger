@@ -6,6 +6,9 @@ import (
 	"os"
 	"strings"
 	"time"
+	"io"
+	"net/http"
+	"path/filepath"
 )
 
 var gRand *rand.Rand
@@ -66,3 +69,26 @@ func ListDirectories(dirOfDirs string) ([]string, error) {
 	}
 	return dirs, nil
 }
+
+func SelectDownloadedWallpaper(papeDir string, url string) (string, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	ret := filepath.Join(papeDir, filepath.Base(url))
+	out, err := os.Create(ret)
+	if err != nil {
+		return "", err
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return ret, err
+}
+
