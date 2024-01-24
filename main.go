@@ -18,6 +18,7 @@ import (
 
 func main() {
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
+	restore := flag.Bool("r", false, "Restore to last set wallpaper (useful to run on startup)")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	listDirOfDirs := flag.Bool("papeDirsDir", false, "interrogate the command line application to determine the directory containing all wallpaper directories")
 	selectDir := flag.String("directory", "", "manually set the directory to be used by papechanger and change the wallpaper to one in it")
@@ -37,6 +38,18 @@ func main() {
 
 	var env *environment.Env
 	var err error
+
+	if *restore {
+		env, err = environment.GetState()
+		if err != nil {
+			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
+		}
+		err = papesetter.SetPape(env.CurrentPape)
+		if err != nil {
+			fatalf("%sUnable to set wallpaper to %s: %v", errprefix.Get(), env.CurrentPape, err)
+		}
+		return
+	}
 
 	if *listDirOfDirs {
 		env, err = environment.GetState()
