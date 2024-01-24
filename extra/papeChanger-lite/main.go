@@ -7,18 +7,16 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/npmaile/papeChanger/internal/chooser"
+	"github.com/npmaile/papeChanger/extra/papeChanger-lite/chooser"
 	"github.com/npmaile/papeChanger/internal/environment"
 	"github.com/npmaile/papeChanger/internal/errprefix"
 	"github.com/npmaile/papeChanger/internal/selector"
-	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
 	"golang.org/x/exp/slog"
 )
 
 func main() {
 	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
-	restore := flag.Bool("r", false, "Restore to last set wallpaper (useful to run on startup)")
 	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
 	listDirOfDirs := flag.Bool("papeDirsDir", false, "interrogate the command line application to determine the directory containing all wallpaper directories")
 	selectDir := flag.String("directory", "", "manually set the directory to be used by papechanger and change the wallpaper to one in it")
@@ -38,18 +36,6 @@ func main() {
 
 	var env *environment.Env
 	var err error
-
-	if *restore {
-		env, err = environment.GetState()
-		if err != nil {
-			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
-		}
-		err = papesetter.SetPape(env.CurrentPape)
-		if err != nil {
-			fatalf("%sUnable to set wallpaper to %s: %v", errprefix.Get(), env.CurrentPape, err)
-		}
-		return
-	}
 
 	if *listDirOfDirs {
 		env, err = environment.GetState()
@@ -114,11 +100,7 @@ func main() {
 		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
 	}
 
-	if *daemon {
-		ui.RunDaemon(env, *setup)
-	} else {
-		classicFunctionality(env, *randomize, *changeDir)
-	}
+	classicFunctionality(env, *randomize, *changeDir)
 }
 
 func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) {
