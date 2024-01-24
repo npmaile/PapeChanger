@@ -41,7 +41,7 @@ struct Dir: View, Identifiable{
     var path: String
     var displayName: String
     var id: String { path }
-    
+
     init(path: String){
         self.path = path
         let sp = path.split(separator: "/")
