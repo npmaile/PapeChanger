@@ -24,7 +24,7 @@ func getDesktop() DE {
 		return de.Xfce{}
 	case "KDE":
 		return de.Plasma{}
-	case "i3":
+	case "i3", "none+i3":
 		return de.I3{}
 	case "GNOME":
 		return de.Gnome{}
