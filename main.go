@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -13,17 +12,22 @@ import (
 	"github.com/npmaile/papeChanger/internal/selector"
 	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
+	"github.com/pborman/getopt"
 	"golang.org/x/exp/slog"
 )
 
 func main() {
-	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
-	restore := flag.Bool("r", false, "Restore to last set wallpaper (useful to run on startup)")
-	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
-	listDirOfDirs := flag.Bool("papeDirsDir", false, "interrogate the command line application to determine the directory containing all wallpaper directories")
-	selectDir := flag.String("directory", "", "manually set the directory to be used by papechanger and change the wallpaper to one in it")
-	setup := flag.Bool("setup", false, "-setup <path> provide a path to the directory with image files\n\n"+
-		"Typically you would set this up like this:\n\n"+
+	setupMode := false
+	changeDir := getopt.BoolLong("change",    'c', "change wallpaper subdirectory in rofi")
+	previous  := getopt.BoolLong("previous",  'p', "restore to last set wallpaper (useful to run on startup)")
+	daemon    := getopt.BoolLong("daemon",     0,  "run in daemon mode with a status bar icon")
+	help      := getopt.BoolLong("help",       0,  "print this page and exit")
+	getMaster := getopt.BoolLong("getmaster", 'g', "print wallpaper master directory path")
+	randomize := getopt.BoolLong("randomize", 'r', "select random wallpaper instead of choosing one")
+
+	selectDir := getopt.StringLong("directory", 'd', "", "manually set wallpaper directory and choose one in it")
+	setup     := getopt.StringLong("setup",     's', "",  "accepts a path to a wallpaper in the master directory\n\n"+
+		"Example master directory structure:\n\n"+
 		"wallpapers\n"+
 		"├── nature\n"+
 		"│   ├── eagle.jpg\n"+
@@ -33,13 +37,20 @@ func main() {
 		"    ├── lambo.jpg\n"+
 		"    ├── gtr.jpg\n"+
 		"    └── wrx.jpg\n")
-	randomize := flag.Bool("randomize", false, "select a random wallpaper instead of going through the list of wallpapers directly")
-	flag.Parse()
+
+	getopt.Parse()
+
+	if *help {
+		getopt.Usage()
+		os.Exit(0)
+	}
+	
 
 	var env *environment.Env
 	var err error
 
-	if *restore {
+
+	if *previous {
 		env, err = environment.GetState()
 		if err != nil {
 			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
@@ -51,7 +62,7 @@ func main() {
 		return
 	}
 
-	if *listDirOfDirs {
+	if *getMaster {
 		env, err = environment.GetState()
 		if err != nil {
 			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
@@ -61,6 +72,7 @@ func main() {
 	}
 
 	if selectDir != nil && *selectDir != "" {
+		
 		env, err = environment.GetState()
 		if err != nil {
 			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
@@ -68,32 +80,31 @@ func main() {
 		var pape string
 		pape, err = selector.SelectWallpaperRandom(*selectDir)
 		if err != nil {
-			fatalf("%sUnable to select a wallpaper: %v", errprefix.Get(), err)
+			fatalf("%sUnable to select background in \"%s\"  %v", errprefix.Get(), *selectDir, err)
 		}
 		err = papesetter.SetPape(pape)
 		if err != nil {
-			fatalf("%sUnalbe to set wallpaper: %v", errprefix.Get(), err)
+			fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
 		}
 		env.WriteState(pape)
 
 		return
 	}
 
-	if *setup && !*daemon {
-
-		filepathraw := os.Args[len(os.Args)-1]
+	if setup != nil && *setup != "" && !*daemon {
+		setupMode = true
 		var papePath string
-		papePath, err = filepath.Abs(filepathraw)
+		papePath, err = filepath.Abs(*setup)
 
 		if err != nil {
-			fatalf("%sUnable to find path %s: %v", errprefix.Get(), filepathraw, err)
+			fatalf("%sUnable to find path %s: %v", errprefix.Get(), *setup, err)
 		}
 
 		log.Printf("Setting wallpaper path to %s", papePath)
 		err = papesetter.SetPape(papePath)
 
 		if err != nil {
-			fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
+			fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), *setup, err)
 		}
 
 		_, err = environment.InitializeState(papePath)
@@ -115,7 +126,7 @@ func main() {
 	}
 
 	if *daemon {
-		ui.RunDaemon(env, *setup)
+		ui.RunDaemon(env, setupMode)
 	} else {
 		classicFunctionality(env, *randomize, *changeDir)
 	}
@@ -152,12 +163,12 @@ func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) 
 	}
 
 	if err != nil {
-		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
+		fatalf("%sUnable to select Wallpaper \"%s\": %v", errprefix.Get(), pape2Pick, err)
 	}
 	log.Printf("Setting wallpaper to %s", pape2Pick)
 	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
-		fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
+		fatalf("%sUnable to set \"%s\" as wallpaper: %v", errprefix.Get(), pape2Pick, err)
 	}
 	err = env.WriteState(pape2Pick)
 	if err != nil {
