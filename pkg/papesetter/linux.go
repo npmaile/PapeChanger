@@ -28,8 +28,8 @@ func getDesktop() DE {
 		return de.I3{}
 	case "GNOME":
 		return de.Gnome{}
-  case "Hyprland":
-    return de.Hypr{}
+	case "Hyprland":
+		return de.Hypr{}
 	}
 
 	nextAttempt, err := checkViaPS()
