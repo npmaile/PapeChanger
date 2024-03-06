@@ -4,12 +4,17 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
+
+	"github.com/npmaile/papeChanger/internal/environment"
+	"github.com/npmaile/papeChanger/internal/selector"
+	"github.com/npmaile/papeChanger/pkg/papesetter"
 )
 
 // [none] - change wallpaper
 // --order=[random(default)|reverse|in-order]
 // --cmd=[$command you want to run to select the wallpaper]
-// -restore
+// --restore
 // (positional)(optional) path to a specific wallpaper
 
 // daemon - run daemon
@@ -30,7 +35,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		base()
+		base(os.Args[2:])
 		os.Exit(0)
 	}
 
@@ -39,28 +44,69 @@ func main() {
 		daemon()
 	case "get":
 		get()
-	case "restore":
-		restore()
 	case "cd":
 		cd()
 	default:
-		base()
+		base(os.Args[1:])
 	}
-
 }
 
-func base() {
+func base(args []string) {
 	flag := flag.NewFlagSet("PapeChanger", flag.CommandLine.ErrorHandling())
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
 	restore := flag.Bool("restore", false, "restore last set wallpaper instead of finding another")
 	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
-	err := flag.Parse(os.Args[1:])
+	err := flag.Parse(args)
 	if err != nil {
 		fmt.Println("todo")
 		os.Exit(1)
 	}
 
+	var env *environment.Env
+
+	remaining := flag.Args()
+	if len(remaining) > 0 {
+		env, err = environment.InitializeState(remaining[0])
+		*restore = true
+	} else {
+		env, err = environment.GetState()
+	}
+	if err != nil {
+		fmt.Println("todo")
+	}
+
+	var pape2Pick string
+	switch strings.ToLower(*order) {
+	case "random", "r", "rand":
+		pape2Pick, err = selector.SelectWallpaperRandom(env.PapeDir())
+
+	case "order", "o", "ord":
+		pape2Pick, err = selector.SelectWallpaperInOrder(env.PapeDir(), env.CurrentPape)
+	default:
+		fmt.Println("todo")
+		//case "reverse", "rev":
+		//pape2Pick, err = selector.SelectWallpaperReverse(env.PapeDir(), env.CurrentPape)
+	}
+
+	if *restore {
+		pape2Pick = env.CurrentPape
+	}
+
+	if *cmd != "" {
+		papesetter.SetPapeCustom(pape2Pick, *cmd)
+	}
+	err = papesetter.SetPape(pape2Pick)
+	if err != nil {
+		fmt.Println("todo")
+	}
+
+	err = env.WriteState(pape2Pick)
+	if err != nil {
+		fmt.Println("todo")
+	}
 }
+
+/* todo: re-think this entire thing
 func daemon() {
 	flag := flag.NewFlagSet("daemon", flag.CommandLine.ErrorHandling())
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
@@ -72,6 +118,8 @@ func daemon() {
 		os.Exit(1)
 	}
 }
+*/
+
 func get() {
 	flag := flag.NewFlagSet("get", flag.CommandLine.ErrorHandling())
 	dirs := flag.Bool("dirs", false, "get the directory that is being used to find directories")
@@ -82,7 +130,28 @@ func get() {
 		os.Exit(1)
 	}
 
+	env, err := environment.GetState()
+	if err != nil {
+		fmt.Println("todo")
+	}
+
+	if !*dirs && !*dir {
+		fmt.Println(env.CurrentPape)
+		os.Exit(0)
+	}
+
+	if *dirs {
+		fmt.Println(env.DirOfDirs())
+		os.Exit(0)
+	}
+
+	if *dir {
+		fmt.Println(env.PapeDir())
+		os.Exit(0)
+	}
+
 }
+
 func cd() {
 	flag := flag.NewFlagSet("cd", flag.CommandLine.ErrorHandling())
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")

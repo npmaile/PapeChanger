@@ -116,8 +116,6 @@ func main() {
 
 	if *daemon {
 		ui.RunDaemon(env, *setup)
-	} else {
-		classicFunctionality(env, *randomize, *changeDir)
 	}
 }
 
@@ -141,27 +139,6 @@ func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) 
 	}
 	if papeDir == "" {
 		papeDir = env.PapeDir()
-	}
-
-	var pape2Pick string
-	var err error
-	if randomize {
-		pape2Pick, err = selector.SelectWallpaperRandom(papeDir)
-	} else {
-		pape2Pick, err = selector.SelectWallpaperInOrder(papeDir, env.CurrentPape)
-	}
-
-	if err != nil {
-		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
-	}
-	log.Printf("Setting wallpaper to %s", pape2Pick)
-	err = papesetter.SetPape(pape2Pick)
-	if err != nil {
-		fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
-	}
-	err = env.WriteState(pape2Pick)
-	if err != nil {
-		fatalf("%sUnable to write state file: %v", errprefix.Get(), err)
 	}
 }
 
