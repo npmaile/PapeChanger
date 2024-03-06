@@ -40,8 +40,8 @@ func main() {
 	}
 
 	switch os.Args[1] {
-	case "daemon":
-		daemon()
+	//	case "daemon":
+	//		daemon()
 	case "get":
 		get()
 	case "cd":
@@ -155,7 +155,6 @@ func get() {
 func cd() {
 	flag := flag.NewFlagSet("cd", flag.CommandLine.ErrorHandling())
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
-	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
 	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
 	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
 

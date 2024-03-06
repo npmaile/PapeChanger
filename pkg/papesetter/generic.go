@@ -25,7 +25,7 @@ func init() {
 }
 
 func SetPapeCustom(papePath string, command string) error {
-	cmd := exec.Command(shell, fmt.Sprintf(command, papePath))
+	cmd := exec.Command(shell, "-c", fmt.Sprintf(command, papePath))
 	outPipe, err := cmd.StdoutPipe()
 	if err != nil {
 		fmt.Println("todo")
