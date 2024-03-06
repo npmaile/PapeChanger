@@ -35,8 +35,8 @@ import (
 // --selector=[we will pipe a list of directories (one per line) into this command, and change papechanger to the specific one]
 
 func main() {
-	if len(os.Args) < 2 {
-		base(os.Args[2:])
+	if len(os.Args) == 1  {
+		base([]string{})
 		os.Exit(0)
 	}
 
