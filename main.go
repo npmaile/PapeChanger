@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/npmaile/papeChanger/internal/chooser"
 	"github.com/npmaile/papeChanger/internal/environment"
 	"github.com/npmaile/papeChanger/internal/selector"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
@@ -79,9 +80,15 @@ func base(args []string) {
 	switch strings.ToLower(*order) {
 	case "random", "r", "rand":
 		pape2Pick, err = selector.SelectWallpaperRandom(env.PapeDir())
+		if err != nil {
+			fmt.Println("todo")
+		}
 
 	case "order", "o", "ord":
 		pape2Pick, err = selector.SelectWallpaperInOrder(env.PapeDir(), env.CurrentPape)
+		if err != nil {
+			fmt.Println("todo")
+		}
 	default:
 		fmt.Println("todo")
 		//case "reverse", "rev":
@@ -158,7 +165,61 @@ func cd() {
 	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
 	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
 
-	err := flag.Parse(os.Args[2:])
+	type selectorFunction func([]string) (string, error)
+	var selectorFunc selectorFunction
+	if *selectorcmd != "" {
+		selectorFunc = func(dirs []string) (string, error) {
+			return chooser.UserDefined(dirs, *selectorcmd)
+		}
+	} else {
+		selectorFunc = chooser.Chooser
+	}
+
+	env, err := environment.GetState()
+	if err != nil {
+		fmt.Println("todo")
+	}
+	dirs, err := selector.ListDirectories(env.DirOfDirs())
+	if err != nil {
+		fmt.Println("todo")
+	}
+	selectedDir, err := selectorFunc(dirs)
+	if err != nil {
+		fmt.Println("todo")
+	}
+
+	var pape2Pick string
+	switch strings.ToLower(*order) {
+	case "random", "r", "rand":
+		pape2Pick, err = selector.SelectWallpaperRandom(selectedDir)
+		if err != nil {
+			fmt.Println("todo")
+		}
+
+	case "order", "o", "ord":
+		pape2Pick, err = selector.SelectWallpaperInOrder(selectedDir, env.CurrentPape)
+		if err != nil {
+			fmt.Println("todo")
+		}
+	default:
+		fmt.Println("todo")
+		//case "reverse", "rev":
+		//pape2Pick, err = selector.SelectWallpaperReverse(env.PapeDir(), env.CurrentPape)
+	}
+
+	if *cmd != "" {
+		papesetter.SetPapeCustom(pape2Pick, *cmd)
+	}
+	err = papesetter.SetPape(pape2Pick)
+	if err != nil {
+		fmt.Println("todo")
+	}
+
+	err = env.WriteState(pape2Pick)
+	if err != nil {
+		fmt.Println("todo")
+	}
+
 	if err != nil {
 		fmt.Println("todo")
 		os.Exit(1)
