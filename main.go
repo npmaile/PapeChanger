@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log/slog"
 	"os"
 	"strings"
 
@@ -91,6 +92,7 @@ Below are the options for calling papeChanger with no sub-command
 	}
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 
 	var pape2Pick string
@@ -99,15 +101,18 @@ Below are the options for calling papeChanger with no sub-command
 		pape2Pick, err = selector.SelectWallpaperRandom(env.PapeDir())
 		if err != nil {
 			fmt.Println("todo")
+			os.Exit(1)
 		}
 
 	case "order", "o", "ord":
 		pape2Pick, err = selector.SelectWallpaperInOrder(env.PapeDir(), env.CurrentPape)
 		if err != nil {
 			fmt.Println("todo")
+			os.Exit(1)
 		}
 	default:
 		fmt.Println("todo")
+		os.Exit(1)
 		//case "reverse", "rev":
 		//pape2Pick, err = selector.SelectWallpaperReverse(env.PapeDir(), env.CurrentPape)
 	}
@@ -122,11 +127,13 @@ Below are the options for calling papeChanger with no sub-command
 	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 
 	err = env.WriteState(pape2Pick)
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 }
 
@@ -200,31 +207,37 @@ func cd() {
 	env, err := environment.GetState()
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 	dirs, err := selector.ListDirectories(env.DirOfDirs())
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 	selectedDir, err := selectorFunc(dirs)
 	if err != nil {
-		fmt.Println("todo")
+		slog.Error(fmt.Sprintf("error returned from directory selection: %s", err.Error()))
+		os.Exit(1)
 	}
 
 	var pape2Pick string
 	switch strings.ToLower(*order) {
 	case "random", "r", "rand":
-		pape2Pick, err = selector.SelectWallpaperRandom(selectedDir)
+		pape2Pick, err = selector.SelectWallpaperRandom(fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selectedDir))
 		if err != nil {
-			fmt.Println("todo")
+			slog.Error(fmt.Sprintf("unable to select a wallpaper at random: %s", err.Error()))
+			os.Exit(1)
 		}
 
 	case "order", "o", "ord":
 		pape2Pick, err = selector.SelectWallpaperInOrder(selectedDir, env.CurrentPape)
 		if err != nil {
-			fmt.Println("todo")
+			slog.Error(fmt.Sprintf("unable to select a wallpaper in order: %s", err.Error()))
+			os.Exit(1)
 		}
 	default:
 		fmt.Println("todo")
+		os.Exit(1)
 		//case "reverse", "rev":
 		//pape2Pick, err = selector.SelectWallpaperReverse(env.PapeDir(), env.CurrentPape)
 	}
@@ -235,11 +248,13 @@ func cd() {
 	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 
 	err = env.WriteState(pape2Pick)
 	if err != nil {
 		fmt.Println("todo")
+		os.Exit(1)
 	}
 
 	if err != nil {

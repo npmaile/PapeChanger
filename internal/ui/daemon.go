@@ -117,7 +117,6 @@ func SetupWindow(app fyne.App, selectedPapePath chan StringSelectionWithErr) {
 }
 
 func ChooserWindow(app fyne.App, directories []string, selectionChan chan StringSelectionWithErr) {
-	fmt.Printf("length passed to chooser window: %d\n", len(directories))
 	window := app.NewWindow("select directory")
 	cont := container.New(layout.NewVBoxLayout())
 	for _, item := range directories {
@@ -136,11 +135,9 @@ func ChooserWindow(app fyne.App, directories []string, selectionChan chan String
 		window.Hide()
 		window.Close()
 	})
-	fmt.Println("here")
 
 	window.SetContent(container.NewScroll(cont))
 	window.Resize(fyne.NewSize(600, 400))
 	window.CenterOnScreen()
 	window.Show()
-	fmt.Println("done with the show")
 }
