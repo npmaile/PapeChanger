@@ -24,7 +24,7 @@ func GetDirectoryCandidates() -> [String]{
 
 func GetCurrentDirOfDirs() -> String{
     let task = Process()
-    task.arguments = ["-papeDirsDir"]
+    task.arguments = ["get", "-dirs"]
     let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
     task.executableURL = URL(fileURLWithPath: helper!)
     task.standardInput = nil
@@ -44,7 +44,7 @@ func GetCurrentDirOfDirs() -> String{
 
 func ChangePapeDir(to:String) -> Void{
     let task = Process()
-    task.arguments = ["-directory", to]
+    task.arguments = ["cd","-direct", to]
     let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
     task.executableURL = URL(fileURLWithPath: helper!)
     task.standardInput = nil

@@ -187,6 +187,7 @@ func cd() {
 	flag := flag.NewFlagSet("PapeChanger cd", flag.CommandLine.ErrorHandling())
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
 	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
+	direct := flag.String("direct", "", "directly change the directory and forego selecting one with the ui")
 	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
 
 	err := flag.Parse(os.Args[2:])
@@ -194,36 +195,45 @@ func cd() {
 		fmt.Println("todo")
 		os.Exit(1)
 	}
-	type selectorFunction func([]string) (string, error)
-	var selectorFunc selectorFunction
-	if *selectorcmd != "" {
-		selectorFunc = func(dirs []string) (string, error) {
-			return chooser.UserDefined(dirs, *selectorcmd)
-		}
-	} else {
-		selectorFunc = chooser.Chooser
-	}
-
 	env, err := environment.GetState()
 	if err != nil {
 		fmt.Println("todo")
 		os.Exit(1)
 	}
-	dirs, err := selector.ListDirectories(env.DirOfDirs())
-	if err != nil {
-		fmt.Println("todo")
-		os.Exit(1)
-	}
-	selectedDir, err := selectorFunc(dirs)
-	if err != nil {
-		slog.Error(fmt.Sprintf("error returned from directory selection: %s", err.Error()))
-		os.Exit(1)
+
+	var selectedDir string
+	if *direct == "" {
+		type selectorFunction func([]string) (string, error)
+		var selectorFunc selectorFunction
+		if *selectorcmd != "" {
+			selectorFunc = func(dirs []string) (string, error) {
+				return chooser.UserDefined(dirs, *selectorcmd)
+			}
+		} else {
+			selectorFunc = chooser.Chooser
+		}
+
+		var dirs []string
+		dirs, err = selector.ListDirectories(env.DirOfDirs())
+		if err != nil {
+			fmt.Println("todo")
+			os.Exit(1)
+		}
+		selectedDirLastPart, err := selectorFunc(dirs)
+		selectedDir = fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selectedDirLastPart)
+		if err != nil {
+			slog.Error(fmt.Sprintf("error returned from directory selection: %s", err.Error()))
+			os.Exit(1)
+		}
+
+	} else {
+		selectedDir = *direct
 	}
 
 	var pape2Pick string
 	switch strings.ToLower(*order) {
 	case "random", "r", "rand":
-		pape2Pick, err = selector.SelectWallpaperRandom(fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selectedDir))
+		pape2Pick, err = selector.SelectWallpaperRandom(selectedDir)
 		if err != nil {
 			slog.Error(fmt.Sprintf("unable to select a wallpaper at random: %s", err.Error()))
 			os.Exit(1)
