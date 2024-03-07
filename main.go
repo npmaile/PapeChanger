@@ -3,169 +3,272 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
-	"path/filepath"
+	"strings"
 
 	"github.com/npmaile/papeChanger/internal/chooser"
 	"github.com/npmaile/papeChanger/internal/environment"
-	"github.com/npmaile/papeChanger/internal/errprefix"
 	"github.com/npmaile/papeChanger/internal/selector"
-	"github.com/npmaile/papeChanger/internal/ui"
 	"github.com/npmaile/papeChanger/pkg/papesetter"
-	"golang.org/x/exp/slog"
 )
 
+// [none] - change wallpaper
+// --order=[random(default)|reverse|in-order]
+// --cmd=[$command you want to run to select the wallpaper]
+// --restore
+// (positional)(optional) path to a specific wallpaper
+
+// daemon - run daemon
+// --order=[random(default)|reverse|in-order]
+// --cmd=[$command you want to run to select the wallpaper]
+// --selector=[we will pipe a list of directories (one per line) into this command, and change papechanger to the specific one]
+
+// get - get currently set wallpaper
+// --dir - get the directory of the wallpaper
+// --dirs - get a listing of directories to pull wallpapers from
+
+// cd - change directory wallpapers are being pulled from
+// --no-change-pape - selectiion will take effect
+// --dir - set the directory directly and skip the selection mechanism
+// --cmd=[$command you want to run to select the wallpaper]
+// --order=[random(default)|reverse|in-order]
+// --selector=[we will pipe a list of directories (one per line) into this command, and change papechanger to the specific one]
+
 func main() {
-	changeDir := flag.Bool("c", false, "Change the directory you are selecting walpapers from")
-	restore := flag.Bool("r", false, "Restore to last set wallpaper (useful to run on startup)")
-	daemon := flag.Bool("d", false, "run in daemon mode with a status bar icon")
-	listDirOfDirs := flag.Bool("papeDirsDir", false, "interrogate the command line application to determine the directory containing all wallpaper directories")
-	selectDir := flag.String("directory", "", "manually set the directory to be used by papechanger and change the wallpaper to one in it")
-	setup := flag.Bool("setup", false, "-setup <path> provide a path to the directory with image files\n\n"+
-		"Typically you would set this up like this:\n\n"+
-		"wallpapers\n"+
-		"├── nature\n"+
-		"│   ├── eagle.jpg\n"+
-		"│   ├── bear.jpg\n"+
-		"│   └── deer.jpg\n"+
-		"└── cars\n"+
-		"    ├── lambo.jpg\n"+
-		"    ├── gtr.jpg\n"+
-		"    └── wrx.jpg\n")
-	randomize := flag.Bool("randomize", false, "select a random wallpaper instead of going through the list of wallpapers directly")
-	flag.Parse()
-
-	var env *environment.Env
-	var err error
-
-	if *restore {
-		env, err = environment.GetState()
-		if err != nil {
-			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
-		}
-		err = papesetter.SetPape(env.CurrentPape)
-		if err != nil {
-			fatalf("%sUnable to set wallpaper to %s: %v", errprefix.Get(), env.CurrentPape, err)
-		}
-		return
-	}
-
-	if *listDirOfDirs {
-		env, err = environment.GetState()
-		if err != nil {
-			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
-		}
-		fmt.Println(env.DirOfDirs())
-		return
-	}
-
-	if selectDir != nil && *selectDir != "" {
-		env, err = environment.GetState()
-		if err != nil {
-			fatalf("%sUnable to get state of papechanger environment: %v", errprefix.Get(), err)
-		}
-		var pape string
-		pape, err = selector.SelectWallpaperRandom(*selectDir)
-		if err != nil {
-			fatalf("%sUnable to select a wallpaper: %v", errprefix.Get(), err)
-		}
-		err = papesetter.SetPape(pape)
-		if err != nil {
-			fatalf("%sUnalbe to set wallpaper: %v", errprefix.Get(), err)
-		}
-		env.WriteState(pape)
-
-		return
-	}
-
-	if *setup && !*daemon {
-
-		filepathraw := os.Args[len(os.Args)-1]
-		var papePath string
-		papePath, err = filepath.Abs(filepathraw)
-
-		if err != nil {
-			fatalf("%sUnable to find path %s: %v", errprefix.Get(), filepathraw, err)
-		}
-
-		log.Printf("Setting wallpaper path to %s", papePath)
-		err = papesetter.SetPape(papePath)
-
-		if err != nil {
-			fatalf("%sUnable to set walpaper to %s: %v", errprefix.Get(), filepathraw, err)
-		}
-
-		_, err = environment.InitializeState(papePath)
-
-		if err != nil {
-			fatalf("%sUnable to write state file %s: %v", errprefix.Get(), papePath, err)
-		}
-
+	if len(os.Args) == 1 {
+		base([]string{})
 		os.Exit(0)
-
-	} else {
-
-		env, err = environment.GetState()
-
 	}
 
-	if err != nil {
-		fatalf("%sUnable to initialize environment: %v", errprefix.Get(), err)
-	}
-
-	if *daemon {
-		ui.RunDaemon(env, *setup)
-	} else {
-		classicFunctionality(env, *randomize, *changeDir)
+	switch os.Args[1] {
+	//	case "daemon":
+	//		daemon()
+	case "get":
+		get()
+	case "cd":
+		cd()
+	default:
+		base(os.Args[1:])
 	}
 }
 
-func classicFunctionality(env *environment.Env, randomize bool, changeDir bool) {
-	var papeDir string
-	if changeDir {
+func base(args []string) {
+	flag := flag.NewFlagSet("PapeChanger", flag.CommandLine.ErrorHandling())
+	flag.Usage = func() {
+		fmt.Println(`
+PapeChanger is a wallpaper changing application.
+Commands in papeChanger are as follows
 
-		dirs, err := selector.ListDirectories(env.DirOfDirs())
+default(no command given)
+	- Change your wallpaper to one of the wallpapers in your configured directory
+get
+	- Retrieve information about the currently set wallpaer
+cd
+	- Change the directory wallpapers are pulled from
 
-		log.Printf("Found %d directories", len(dirs))
-
-		if err != nil {
-			fatalf("%sUnable to change wallpaper directory: %v", errprefix.Get(), err)
-		}
-		dirToPick, err := chooser.Chooser(dirs)
-		if err != nil {
-			fatalf("%sUnable to pick wallpaper directory: %v", errprefix.Get(), err)
-		}
-		papeDir = fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), dirToPick)
-
+Options for each sub-command can be seen by calling the subcommand with the -h option
+Below are the options for calling papeChanger with no sub-command
+		`)
+		flag.PrintDefaults()
 	}
-	if papeDir == "" {
-		papeDir = env.PapeDir()
+	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
+	restore := flag.Bool("restore", false, "restore last set wallpaper instead of finding another")
+	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
+	err := flag.Parse(args)
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+
+	var env *environment.Env
+
+	remaining := flag.Args()
+	if len(remaining) > 0 {
+		env, err = environment.InitializeState(remaining[0])
+		*restore = true
+	} else {
+		env, err = environment.GetState()
+	}
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
 	}
 
 	var pape2Pick string
-	var err error
-	if randomize {
-		pape2Pick, err = selector.SelectWallpaperRandom(papeDir)
-	} else {
-		pape2Pick, err = selector.SelectWallpaperInOrder(papeDir, env.CurrentPape)
+	switch strings.ToLower(*order) {
+	case "random", "r", "rand":
+		pape2Pick, err = selector.SelectWallpaperRandom(env.PapeDir())
+		if err != nil {
+			fmt.Println("todo")
+			os.Exit(1)
+		}
+
+	case "order", "o", "ord":
+		pape2Pick, err = selector.SelectWallpaperInOrder(env.PapeDir(), env.CurrentPape)
+		if err != nil {
+			fmt.Println("todo")
+			os.Exit(1)
+		}
+	default:
+		fmt.Println("todo")
+		os.Exit(1)
+		//case "reverse", "rev":
+		//pape2Pick, err = selector.SelectWallpaperReverse(env.PapeDir(), env.CurrentPape)
 	}
 
-	if err != nil {
-		fatalf("%sUnable to select Wallpaper: %v", errprefix.Get(), err)
+	if *restore {
+		pape2Pick = env.CurrentPape
 	}
-	log.Printf("Setting wallpaper to %s", pape2Pick)
+
+	if *cmd != "" {
+		papesetter.SetPapeCustom(pape2Pick, *cmd)
+	}
 	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
-		fatalf("%sUnable to set wallpaper: %v", errprefix.Get(), err)
+		fmt.Println("todo")
+		os.Exit(1)
 	}
+
 	err = env.WriteState(pape2Pick)
 	if err != nil {
-		fatalf("%sUnable to write state file: %v", errprefix.Get(), err)
+		fmt.Println("todo")
+		os.Exit(1)
 	}
 }
 
-func fatalf(msg string, vars ...any) {
-	slog.Error(fmt.Sprintf(msg, vars...))
-	os.Exit(1)
+/* todo: re-think this entire thing
+func daemon() {
+	flag := flag.NewFlagSet("daemon", flag.CommandLine.ErrorHandling())
+	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
+	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
+	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
+	err := flag.Parse(os.Args[2:])
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+}
+*/
+
+func get() {
+	flag := flag.NewFlagSet("PapeChanger get", flag.CommandLine.ErrorHandling())
+	dirs := flag.Bool("dirs", false, "get the directory that is being used to find directories")
+	dir := flag.Bool("dir", false, "get the directory that wallpapers are being pulled from right now")
+	err := flag.Parse(os.Args[2:])
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+
+	env, err := environment.GetState()
+	if err != nil {
+		fmt.Println("todo")
+	}
+
+	if !*dirs && !*dir {
+		fmt.Println(env.CurrentPape)
+		os.Exit(0)
+	}
+
+	if *dirs {
+		fmt.Println(env.DirOfDirs())
+		os.Exit(0)
+	}
+
+	if *dir {
+		fmt.Println(env.PapeDir())
+		os.Exit(0)
+	}
+
+}
+
+func cd() {
+	flag := flag.NewFlagSet("PapeChanger cd", flag.CommandLine.ErrorHandling())
+	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
+	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
+	direct := flag.String("direct", "", "directly change the directory and forego selecting one with the ui")
+	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
+
+	err := flag.Parse(os.Args[2:])
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+	env, err := environment.GetState()
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+
+	var selectedDir string
+	if *direct == "" {
+		type selectorFunction func([]string) (string, error)
+		var selectorFunc selectorFunction
+		if *selectorcmd != "" {
+			selectorFunc = func(dirs []string) (string, error) {
+				return chooser.UserDefined(dirs, *selectorcmd)
+			}
+		} else {
+			selectorFunc = chooser.Chooser
+		}
+
+		var dirs []string
+		dirs, err = selector.ListDirectories(env.DirOfDirs())
+		if err != nil {
+			fmt.Println("todo")
+			os.Exit(1)
+		}
+		selectedDirLastPart, err := selectorFunc(dirs)
+		selectedDir = fmt.Sprintf("%s%s%s", env.DirOfDirs(), string(os.PathSeparator), selectedDirLastPart)
+		if err != nil {
+			slog.Error(fmt.Sprintf("error returned from directory selection: %s", err.Error()))
+			os.Exit(1)
+		}
+
+	} else {
+		selectedDir = *direct
+	}
+
+	var pape2Pick string
+	switch strings.ToLower(*order) {
+	case "random", "r", "rand":
+		pape2Pick, err = selector.SelectWallpaperRandom(selectedDir)
+		if err != nil {
+			slog.Error(fmt.Sprintf("unable to select a wallpaper at random: %s", err.Error()))
+			os.Exit(1)
+		}
+
+	case "order", "o", "ord":
+		pape2Pick, err = selector.SelectWallpaperInOrder(selectedDir, env.CurrentPape)
+		if err != nil {
+			slog.Error(fmt.Sprintf("unable to select a wallpaper in order: %s", err.Error()))
+			os.Exit(1)
+		}
+	default:
+		fmt.Println("todo")
+		os.Exit(1)
+		//case "reverse", "rev":
+		//pape2Pick, err = selector.SelectWallpaperReverse(env.PapeDir(), env.CurrentPape)
+	}
+
+	if *cmd != "" {
+		papesetter.SetPapeCustom(pape2Pick, *cmd)
+	}
+	err = papesetter.SetPape(pape2Pick)
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+
+	err = env.WriteState(pape2Pick)
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
+
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
 }

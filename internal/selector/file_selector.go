@@ -6,6 +6,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"golang.org/x/text/collate"
+	"golang.org/x/text/language"
 )
 
 var gRand *rand.Rand
@@ -15,19 +18,19 @@ func init() {
 }
 
 func SelectWallpaperRandom(papeDir string) (string, error) {
-	papeCandidates, err := os.ReadDir(papeDir)
+	papeCandidates, err := ListFiles(papeDir)
 	if err != nil {
 		return "", err
 	}
 	index := gRand.Int() % len(papeCandidates)
 
-	ret := fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index].Name())
+	ret := fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index])
 	fmt.Printf("something something words: %s", ret)
 	return ret, nil
 }
 
 func SelectWallpaperInOrder(papeDir string, currentWallpaperFullPath string) (string, error) {
-	papeCandidates, err := os.ReadDir(papeDir)
+	papeCandidates, err := ListFiles(papeDir)
 	if err != nil {
 		return "", err
 	}
@@ -37,22 +40,35 @@ func SelectWallpaperInOrder(papeDir string, currentWallpaperFullPath string) (st
 	currentPape := fullCurPapePath[len(fullCurPapePath)-1]
 
 	for index, entry := range papeCandidates {
-		if entry.Name() == currentPape {
+		if entry == currentPape {
 			if index >= len(papeCandidates)-1 {
-				ret = papeCandidates[0].Name()
+				ret = papeCandidates[0]
 			} else {
-				ret = papeCandidates[index+1].Name()
+				ret = papeCandidates[index+1]
 			}
 		}
 	}
 	if ret == "" {
 		//current wallpaper was not found, therefore just use the first one
-		ret = papeCandidates[0].Name()
+		ret = papeCandidates[0]
 	}
 	realret := papeDir + string(os.PathSeparator) + ret
 	return realret, nil
 }
 
+func ListFiles(directory string) ([]string, error) {
+	fileCandidates, err := os.ReadDir(directory)
+	if err != nil {
+		return []string{""}, err
+	}
+	var files = make([]string, 0)
+	for _, possibleFile := range fileCandidates {
+		if !possibleFile.IsDir() {
+			files = append(files, possibleFile.Name())
+		}
+	}
+	return files, nil
+}
 func ListDirectories(dirOfDirs string) ([]string, error) {
 	DirCandidates, err := os.ReadDir(dirOfDirs)
 	if err != nil {
@@ -64,5 +80,6 @@ func ListDirectories(dirOfDirs string) ([]string, error) {
 			dirs = append(dirs, possibleDir.Name())
 		}
 	}
+	collate.New(language.English).SortStrings(dirs)
 	return dirs, nil
 }

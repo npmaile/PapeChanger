@@ -27,7 +27,7 @@ func selectPape(){
             
             let helper = Bundle.main.path(forAuxiliaryExecutable: "papechanger")
             task.executableURL = URL(fileURLWithPath: helper!)
-            task.arguments = ["--setup", filename!]
+            task.arguments = [filename!]
             task.standardInput = nil
             task.launch()
             task.waitUntilExit()

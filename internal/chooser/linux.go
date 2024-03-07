@@ -10,6 +10,7 @@ import (
 )
 
 func Chooser(directories []string) (string, error) {
+	//Todo: come up with a bespoke list of choosers that will work okay for the user to use
 	cmd := exec.Command("rofi", "-dmenu")
 	var pipe io.WriteCloser
 	pipe, err := cmd.StdinPipe()
