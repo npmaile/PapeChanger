@@ -2,6 +2,7 @@ package selector
 
 import (
 	"fmt"
+	"io/fs"
 	"math/rand"
 	"os"
 	"strings"
@@ -19,10 +20,15 @@ func SelectWallpaperRandom(papeDir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	index := gRand.Int() % len(papeCandidates)
+	var papesToChooseFrom []fs.DirEntry
+	for _, f := range papeCandidates {
+		if f.Type().IsRegular() {
+			papesToChooseFrom = append(papesToChooseFrom, f)
+		}
+	}
+	index := gRand.Int() % len(papesToChooseFrom)
 
-	ret := fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papeCandidates[index].Name())
-	fmt.Printf("something something words: %s", ret)
+	ret := fmt.Sprintf("%s%s%s", papeDir, string(os.PathSeparator), papesToChooseFrom[index].Name())
 	return ret, nil
 }
 
@@ -31,23 +37,30 @@ func SelectWallpaperInOrder(papeDir string, currentWallpaperFullPath string) (st
 	if err != nil {
 		return "", err
 	}
+	var papesToChooseFrom []fs.DirEntry
+	for _, f := range papeCandidates {
+		if f.Type().IsRegular() {
+			papesToChooseFrom = append(papesToChooseFrom, f)
+		}
+	}
+
 	var ret string
 
 	fullCurPapePath := strings.Split(currentWallpaperFullPath, string(os.PathSeparator))
 	currentPape := fullCurPapePath[len(fullCurPapePath)-1]
 
-	for index, entry := range papeCandidates {
+	for index, entry := range papesToChooseFrom {
 		if entry.Name() == currentPape {
-			if index >= len(papeCandidates)-1 {
-				ret = papeCandidates[0].Name()
+			if index >= len(papesToChooseFrom)-1 {
+				ret = papesToChooseFrom[0].Name()
 			} else {
-				ret = papeCandidates[index+1].Name()
+				ret = papesToChooseFrom[index+1].Name()
 			}
 		}
 	}
 	if ret == "" {
 		//current wallpaper was not found, therefore just use the first one
-		ret = papeCandidates[0].Name()
+		ret = papesToChooseFrom[0].Name()
 	}
 	realret := papeDir + string(os.PathSeparator) + ret
 	return realret, nil
