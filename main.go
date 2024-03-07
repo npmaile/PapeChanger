@@ -35,7 +35,7 @@ import (
 // --selector=[we will pipe a list of directories (one per line) into this command, and change papechanger to the specific one]
 
 func main() {
-	if len(os.Args) == 1  {
+	if len(os.Args) == 1 {
 		base([]string{})
 		os.Exit(0)
 	}
@@ -54,6 +54,23 @@ func main() {
 
 func base(args []string) {
 	flag := flag.NewFlagSet("PapeChanger", flag.CommandLine.ErrorHandling())
+	flag.Usage = func() {
+		fmt.Println(`
+PapeChanger is a wallpaper changing application.
+Commands in papeChanger are as follows
+
+default(no command given)
+	- Change your wallpaper to one of the wallpapers in your configured directory
+get
+	- Retrieve information about the currently set wallpaer
+cd
+	- Change the directory wallpapers are pulled from
+
+Options for each sub-command can be seen by calling the subcommand with the -h option
+Below are the options for calling papeChanger with no sub-command
+		`)
+		flag.PrintDefaults()
+	}
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
 	restore := flag.Bool("restore", false, "restore last set wallpaper instead of finding another")
 	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
@@ -128,7 +145,7 @@ func daemon() {
 */
 
 func get() {
-	flag := flag.NewFlagSet("get", flag.CommandLine.ErrorHandling())
+	flag := flag.NewFlagSet("PapeChanger get", flag.CommandLine.ErrorHandling())
 	dirs := flag.Bool("dirs", false, "get the directory that is being used to find directories")
 	dir := flag.Bool("dir", false, "get the directory that wallpapers are being pulled from right now")
 	err := flag.Parse(os.Args[2:])
@@ -160,11 +177,16 @@ func get() {
 }
 
 func cd() {
-	flag := flag.NewFlagSet("cd", flag.CommandLine.ErrorHandling())
+	flag := flag.NewFlagSet("PapeChanger cd", flag.CommandLine.ErrorHandling())
 	order := flag.String("order", "random", "order of papechanger to traverse the directory of wallpapers selected [random (default)|ordered]")
 	cmd := flag.String("cmd", "", "command to be run to set the wallpaper. This string is passed directly to the OS default shell with any instance of %s replaced with the name of the wallpaper")
 	selectorcmd := flag.String("selector", "", "Command to be run to select the directory to pull wallpapers from. A list of directories will be passed to it on stdin, and whatever directory comes back from it will be selected by papeChanger")
 
+	err := flag.Parse(os.Args[2:])
+	if err != nil {
+		fmt.Println("todo")
+		os.Exit(1)
+	}
 	type selectorFunction func([]string) (string, error)
 	var selectorFunc selectorFunction
 	if *selectorcmd != "" {
