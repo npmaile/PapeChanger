@@ -7,10 +7,12 @@
 
 import SwiftUI
 import Foundation
+import HotKey
 
 @main
 struct PapeChangerApp: App {
     @State private var showPicker: Bool = false
+    let changePapeHotKey = HotKey(key: .w, modifiers: [.control], keyDownHandler: {ChangePape()})
     var body: some Scene {
         MenuBarExtra("PapeChanger", systemImage: "square.on.square.fill") {
             Button("Change Wallpaper", action: ChangePape)
