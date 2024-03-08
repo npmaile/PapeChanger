@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4B39B1252B05AC130046CD14 /* DirectoryChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */; };
-		4B52AD182B9AA19B00769B98 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 4B52AD172B9AA19B00769B98 /* HotKey */; };
 		4B73231B2B0DA10900F3D87C /* utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73231A2B0DA10900F3D87C /* utility.swift */; };
 		4B881B782A9340700053ED40 /* papechanger in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B881B772A9340700053ED40 /* papechanger */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */; };
@@ -56,7 +55,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B52AD182B9AA19B00769B98 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,9 +127,6 @@
 				4B881B732A93349F0053ED40 /* PBXTargetDependency */,
 			);
 			name = "Pape Changer";
-			packageProductDependencies = (
-				4B52AD172B9AA19B00769B98 /* HotKey */,
-			);
 			productName = PapeChanger;
 			productReference = 4BADBCCA2A889396000FFF96 /* Pape Changer.app */;
 			productType = "com.apple.product-type.application";
@@ -144,7 +139,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					4BADBCC92A889396000FFF96 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -163,9 +158,6 @@
 				Base,
 			);
 			mainGroup = 4BADBCC12A889396000FFF96;
-			packageReferences = (
-				4B52AD162B9AA19B00769B98 /* XCRemoteSwiftPackageReference "HotKey" */,
-			);
 			productRefGroup = 4BADBCCB2A889396000FFF96 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -214,7 +206,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -281,7 +272,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -474,25 +464,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		4B52AD162B9AA19B00769B98 /* XCRemoteSwiftPackageReference "HotKey" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/soffes/HotKey";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		4B52AD172B9AA19B00769B98 /* HotKey */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B52AD162B9AA19B00769B98 /* XCRemoteSwiftPackageReference "HotKey" */;
-			productName = HotKey;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4BADBCC22A889396000FFF96 /* Project object */;
 }
