@@ -137,6 +137,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4B60A5642B9EF9FE0069057E /* PBXTargetDependency */,
 				4B881B732A93349F0053ED40 /* PBXTargetDependency */,
 			);
 			name = "Pape Changer";
@@ -214,6 +215,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4B60A5642B9EF9FE0069057E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4B60A5632B9EF9FE0069057E /* KeyboardShortcuts */;
+		};
 		4B881B732A93349F0053ED40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4BADBCDD2A88A68E000FFF96 /* papeChanger-cli */;
@@ -499,6 +504,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4B60A5632B9EF9FE0069057E /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B4C80A52B9D20260095C57F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
 		4BEA5E122B9D294200305A46 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4B4C80A52B9D20260095C57F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
