@@ -1,19 +1,8 @@
-name: Build and Release
+name: test-build
 on:
-  push:
-    branches: [ master ]
+  pull_request:
   workflow_dispatch:
 jobs:
-  manage-release:
-    runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: manage-releases
-        run: |
-          gh release delete latest
-          gh release create latest
   build-apple:
     runs-on: macos-13
     env:
@@ -56,10 +45,6 @@ jobs:
       - name: Create Apple dmg asset
         run: |
           make release-mac
-      - name: Upload apple release asset
-        id: upload-apple-release-asset
-        run: |
-          gh release upload latest ./PapeChanger.dmg
   build-windows:
     runs-on: windows-latest
     env:
@@ -70,7 +55,3 @@ jobs:
         run: |
           $env:Path += ";C:\Program Files (x86)\WiX Toolset v3.11\bin"
           make release-win
-      - name: Upload Winodws Release Asset
-        id: upload-windows-release-asset
-        run: |
-          gh release upload latest ./papeChanger.msi
