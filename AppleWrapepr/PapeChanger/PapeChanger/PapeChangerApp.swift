@@ -10,7 +10,10 @@ import Foundation
 import KeyboardShortcuts
 
 @main
-struct PapeChangerApp: App {
+struct PapeChangerApp: App{
+    init(){
+        KeyboardShortcuts.onKeyDown(for: .ChangePape, action: ChangePape)
+    }
     var body: some Scene {
         MenuBarExtra("PapeChanger", systemImage: "square.on.square.fill") {
             Button("Change Wallpaper", action: ChangePape)
@@ -27,13 +30,6 @@ struct PapeChangerApp: App {
                 SettingsView()
         
         }
-    }
-}
-
-@MainActor
-final class AppState: ObservableObject {
-    init() {
-        KeyboardShortcuts.onKeyDown(for: .ChangePape, action: ChangePape)
     }
 }
 
