@@ -17,6 +17,7 @@ Once you've confirmed it works on your system, you will want to bind `papeChange
 
 # Building
 
+
 ## Minimum Requirements
 
 - A functioning go environment
