@@ -13,6 +13,7 @@
 		4B881B782A9340700053ED40 /* papechanger in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B881B772A9340700053ED40 /* papechanger */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */; };
 		4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BADBCD12A889397000FFF96 /* Assets.xcassets */; };
+		4BD2E9142B9EFE9E000547A3 /* KeyboardShortcuts in Resources */ = {isa = PBXBuildFile; fileRef = 4BD2E9132B9EFE9E000547A3 /* KeyboardShortcuts */; };
 		4BD7126C2A89F21200974AC8 /* PapeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */; };
 		4BEA5E132B9D294200305A46 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 4BEA5E122B9D294200305A46 /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		4BADBCD12A889397000FFF96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4BADBCD62A889397000FFF96 /* PapeChanger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PapeChanger.entitlements; sourceTree = "<group>"; };
 		4BADBCDC2A889C46000FFF96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4BD2E9132B9EFE9E000547A3 /* KeyboardShortcuts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KeyboardShortcuts; path = "../../../../../../Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts"; sourceTree = "<group>"; };
 		4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PapeSelectorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 		4BADBCC12A889396000FFF96 = {
 			isa = PBXGroup;
 			children = (
+				4BD2E9132B9EFE9E000547A3 /* KeyboardShortcuts */,
 				4B881B772A9340700053ED40 /* papechanger */,
 				4BADBCCC2A889396000FFF96 /* PapeChanger */,
 				4BADBCCB2A889396000FFF96 /* Products */,
@@ -194,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */,
+				4BD2E9142B9EFE9E000547A3 /* KeyboardShortcuts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
