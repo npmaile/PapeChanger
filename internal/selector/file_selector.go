@@ -59,13 +59,16 @@ func SelectWallpaperInOrder(papeDir string, currentWallpaperFullPath string) (st
 func ListFiles(directory string) ([]string, error) {
 	fileCandidates, err := os.ReadDir(directory)
 	if err != nil {
-		return []string{""}, err
+		return nil, err
 	}
 	var files = make([]string, 0)
 	for _, possibleFile := range fileCandidates {
 		if !possibleFile.IsDir() {
 			files = append(files, possibleFile.Name())
 		}
+	}
+	if len(files) == 0 {
+		return nil, fmt.Errorf("no files in directory %s", directory)
 	}
 	return files, nil
 }
