@@ -15,9 +15,14 @@ Set it up by running `papeChanger -setup $SOME_PATH_TO_SOME_WALLPAPER`, which sh
 Test the directory changing functionality by running `papeChanger -c`. If it does not bring up a window to select your walpaper directory, try running it as `papechanger -c --useBuiltin` to use the built in directory switcher.
 Once you've confirmed it works on your system, you will want to bind `papeChanger` to a hotkey and `papeChanger -c` to another hotkey so you can change your walpapers without needing to open a terminal or run dialogue.
 
+# Installation
+## MacOS/Windows
+If you are on MacOS or Windows, you can install papeChanger by downloading an installable build on the [releases](https://github.com/npmaile/PapeChanger/releases) page. This will give you the PapeChanger Desktop Application which is installed and run in the way you would expect.
+
+## Command line
+On all supported platforms, the core functionality of PapeChanger is available by running `go install github.com/npmaile/papeChanger@latest` in the terminal (a functioning Go environment is necessary) Once enough people complain, I'll probably make builds for all the systems available on the releases page like the packaged ones.
+
 # Building
-
-
 ## Minimum Requirements
 
 - A functioning go environment
