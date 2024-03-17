@@ -1,6 +1,7 @@
 package environment
 
 import (
+	"fmt"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -20,8 +21,12 @@ func InitializeState(firstPape string) (*Env, error) {
 	if err != nil {
 		return nil, err
 	}
-	e := Env{StatePath: statePath, CurrentPape: firstPape}
-	err = e.WriteState(firstPape)
+	firstPapeFullPath, err := filepath.Abs(firstPape)
+	if err != nil {
+		return nil, fmt.Errorf("unable to determine full path for wallpaper: %s", err.Error())
+	}
+	e := Env{StatePath: statePath, CurrentPape: firstPapeFullPath}
+	err = e.WriteState(firstPapeFullPath)
 	if err != nil {
 		return nil, err
 	}

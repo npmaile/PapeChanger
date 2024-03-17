@@ -124,6 +124,7 @@ Below are the options for calling papeChanger with no sub-command
 	if *cmd != "" {
 		papesetter.SetPapeCustom(pape2Pick, *cmd)
 	}
+
 	err = papesetter.SetPape(pape2Pick)
 	if err != nil {
 		fmt.Println("todo")
