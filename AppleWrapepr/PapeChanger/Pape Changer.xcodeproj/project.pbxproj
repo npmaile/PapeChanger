@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		4B39B1252B05AC130046CD14 /* DirectoryChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */; };
+		4B4C80A92B9D233C0095C57F /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4C80A82B9D233C0095C57F /* constants.swift */; };
 		4B73231B2B0DA10900F3D87C /* utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73231A2B0DA10900F3D87C /* utility.swift */; };
 		4B881B782A9340700053ED40 /* papechanger in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B881B772A9340700053ED40 /* papechanger */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */; };
 		4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BADBCD12A889397000FFF96 /* Assets.xcassets */; };
+		4BB10E712BA5513100587453 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB10E702BA5513100587453 /* KeyboardShortcuts */; };
 		4BD7126C2A89F21200974AC8 /* PapeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryChooser.swift; sourceTree = "<group>"; };
+		4B4C80A82B9D233C0095C57F /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		4B73231A2B0DA10900F3D87C /* utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utility.swift; sourceTree = "<group>"; };
 		4B881B772A9340700053ED40 /* papechanger */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = papechanger; path = ../../build/bin/MacOS/papechanger; sourceTree = "<group>"; };
 		4BADBCCA2A889396000FFF96 /* Pape Changer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pape Changer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BB10E712BA5513100587453 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +71,7 @@
 				4B881B772A9340700053ED40 /* papechanger */,
 				4BADBCCC2A889396000FFF96 /* PapeChanger */,
 				4BADBCCB2A889396000FFF96 /* Products */,
+				4BB10E6F2BA5513100587453 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,9 +92,17 @@
 				4BADBCD62A889397000FFF96 /* PapeChanger.entitlements */,
 				4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */,
 				4B39B1242B05AC130046CD14 /* DirectoryChooser.swift */,
+				4B4C80A82B9D233C0095C57F /* constants.swift */,
 				4B73231A2B0DA10900F3D87C /* utility.swift */,
 			);
 			path = PapeChanger;
+			sourceTree = "<group>";
+		};
+		4BB10E6F2BA5513100587453 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,8 +130,8 @@
 			buildConfigurationList = 4BADBCD92A889397000FFF96 /* Build configuration list for PBXNativeTarget "Pape Changer" */;
 			buildPhases = (
 				4BADBCC62A889396000FFF96 /* Sources */,
-				4BADBCC72A889396000FFF96 /* Frameworks */,
 				4BADBCC82A889396000FFF96 /* Resources */,
+				4BADBCC72A889396000FFF96 /* Frameworks */,
 				4B881B742A9337D60053ED40 /* CopyFiles */,
 			);
 			buildRules = (
@@ -127,6 +140,9 @@
 				4B881B732A93349F0053ED40 /* PBXTargetDependency */,
 			);
 			name = "Pape Changer";
+			packageProductDependencies = (
+				4BB10E702BA5513100587453 /* KeyboardShortcuts */,
+			);
 			productName = PapeChanger;
 			productReference = 4BADBCCA2A889396000FFF96 /* Pape Changer.app */;
 			productType = "com.apple.product-type.application";
@@ -139,7 +155,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					4BADBCC92A889396000FFF96 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -158,6 +174,9 @@
 				Base,
 			);
 			mainGroup = 4BADBCC12A889396000FFF96;
+			packageReferences = (
+				4BB10E6E2BA5512600587453 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			productRefGroup = 4BADBCCB2A889396000FFF96 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -187,6 +206,7 @@
 				4B73231B2B0DA10900F3D87C /* utility.swift in Sources */,
 				4B39B1252B05AC130046CD14 /* DirectoryChooser.swift in Sources */,
 				4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */,
+				4B4C80A92B9D233C0095C57F /* constants.swift in Sources */,
 				4BD7126C2A89F21200974AC8 /* PapeSelectorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,7 +225,10 @@
 		4BADBCD72A889397000FFF96 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -257,7 +280,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MERGEABLE_LIBRARY = YES;
+				MERGED_BINARY_TYPE = automatic;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -271,7 +296,10 @@
 		4BADBCD82A889397000FFF96 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -317,7 +345,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MERGEABLE_LIBRARY = YES;
+				MERGED_BINARY_TYPE = automatic;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = papeChanger;
@@ -352,7 +382,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.npmaile.PapeChanger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -389,7 +419,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.npmaile.PapeChanger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -464,6 +494,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4BB10E6E2BA5512600587453 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4BB10E702BA5513100587453 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BB10E6E2BA5512600587453 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4BADBCC22A889396000FFF96 /* Project object */;
 }
