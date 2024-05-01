@@ -1,0 +1,42 @@
+{
+  "" : {
+    "dependencies" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/Objects-normal/arm64/KeyboardShortcuts-master.d",
+    "diagnostics" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/Objects-normal/arm64/KeyboardShortcuts-master.dia",
+    "emit-module-dependencies" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/Objects-normal/arm64/KeyboardShortcuts-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/Objects-normal/arm64/KeyboardShortcuts-master-emit-module.dia",
+    "swift-dependencies" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/Objects-normal/arm64/KeyboardShortcuts-master.swiftdeps"
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/CarbonKeyboardShortcuts.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Key.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/KeyboardShortcuts.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Name.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/NSMenuItem++.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Recorder.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/RecorderCocoa.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Shortcut.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Utilities.swift" : {
+
+  },
+  "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/ViewModifiers.swift" : {
+
+  },
+  "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/DerivedSources/resource_bundle_accessor.swift" : {
+
+  }
+}

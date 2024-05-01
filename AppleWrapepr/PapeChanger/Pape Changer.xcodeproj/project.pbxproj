@@ -13,9 +13,8 @@
 		4B881B782A9340700053ED40 /* papechanger in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B881B772A9340700053ED40 /* papechanger */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4BADBCCE2A889396000FFF96 /* PapeChangerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADBCCD2A889396000FFF96 /* PapeChangerApp.swift */; };
 		4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BADBCD12A889397000FFF96 /* Assets.xcassets */; };
-		4BD2E9142B9EFE9E000547A3 /* KeyboardShortcuts in Resources */ = {isa = PBXBuildFile; fileRef = 4BD2E9132B9EFE9E000547A3 /* KeyboardShortcuts */; };
+		4BB10E712BA5513100587453 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB10E702BA5513100587453 /* KeyboardShortcuts */; };
 		4BD7126C2A89F21200974AC8 /* PapeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */; };
-		4BEA5E132B9D294200305A46 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 4BEA5E122B9D294200305A46 /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +50,6 @@
 		4BADBCD12A889397000FFF96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4BADBCD62A889397000FFF96 /* PapeChanger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PapeChanger.entitlements; sourceTree = "<group>"; };
 		4BADBCDC2A889C46000FFF96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		4BD2E9132B9EFE9E000547A3 /* KeyboardShortcuts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KeyboardShortcuts; path = "../../../../../../Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts"; sourceTree = "<group>"; };
 		4BD7126B2A89F21200974AC8 /* PapeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PapeSelectorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BEA5E132B9D294200305A46 /* KeyboardShortcuts in Frameworks */,
+				4BB10E712BA5513100587453 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,11 +68,10 @@
 		4BADBCC12A889396000FFF96 = {
 			isa = PBXGroup;
 			children = (
-				4BD2E9132B9EFE9E000547A3 /* KeyboardShortcuts */,
 				4B881B772A9340700053ED40 /* papechanger */,
 				4BADBCCC2A889396000FFF96 /* PapeChanger */,
 				4BADBCCB2A889396000FFF96 /* Products */,
-				4BEA5E112B9D294200305A46 /* Frameworks */,
+				4BB10E6F2BA5513100587453 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,7 +98,7 @@
 			path = PapeChanger;
 			sourceTree = "<group>";
 		};
-		4BEA5E112B9D294200305A46 /* Frameworks */ = {
+		4BB10E6F2BA5513100587453 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -133,19 +130,18 @@
 			buildConfigurationList = 4BADBCD92A889397000FFF96 /* Build configuration list for PBXNativeTarget "Pape Changer" */;
 			buildPhases = (
 				4BADBCC62A889396000FFF96 /* Sources */,
-				4BADBCC72A889396000FFF96 /* Frameworks */,
 				4BADBCC82A889396000FFF96 /* Resources */,
+				4BADBCC72A889396000FFF96 /* Frameworks */,
 				4B881B742A9337D60053ED40 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4B60A5642B9EF9FE0069057E /* PBXTargetDependency */,
 				4B881B732A93349F0053ED40 /* PBXTargetDependency */,
 			);
 			name = "Pape Changer";
 			packageProductDependencies = (
-				4BEA5E122B9D294200305A46 /* KeyboardShortcuts */,
+				4BB10E702BA5513100587453 /* KeyboardShortcuts */,
 			);
 			productName = PapeChanger;
 			productReference = 4BADBCCA2A889396000FFF96 /* Pape Changer.app */;
@@ -179,7 +175,7 @@
 			);
 			mainGroup = 4BADBCC12A889396000FFF96;
 			packageReferences = (
-				4B4C80A52B9D20260095C57F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				4BB10E6E2BA5512600587453 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 4BADBCCB2A889396000FFF96 /* Products */;
 			projectDirPath = "";
@@ -197,7 +193,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BADBCD22A889397000FFF96 /* Assets.xcassets in Resources */,
-				4BD2E9142B9EFE9E000547A3 /* KeyboardShortcuts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,10 +214,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4B60A5642B9EF9FE0069057E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 4B60A5632B9EF9FE0069057E /* KeyboardShortcuts */;
-		};
 		4B881B732A93349F0053ED40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4BADBCDD2A88A68E000FFF96 /* papeChanger-cli */;
@@ -234,8 +225,10 @@
 		4BADBCD72A889397000FFF96 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -288,6 +281,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MERGEABLE_LIBRARY = YES;
+				MERGED_BINARY_TYPE = automatic;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -301,8 +296,10 @@
 		4BADBCD82A889397000FFF96 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -349,6 +346,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MERGEABLE_LIBRARY = YES;
+				MERGED_BINARY_TYPE = automatic;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = papeChanger;
@@ -497,7 +496,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4B4C80A52B9D20260095C57F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+		4BB10E6E2BA5512600587453 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
@@ -508,14 +507,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4B60A5632B9EF9FE0069057E /* KeyboardShortcuts */ = {
+		4BB10E702BA5513100587453 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4B4C80A52B9D20260095C57F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
-			productName = KeyboardShortcuts;
-		};
-		4BEA5E122B9D294200305A46 /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B4C80A52B9D20260095C57F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			package = 4BB10E6E2BA5512600587453 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */

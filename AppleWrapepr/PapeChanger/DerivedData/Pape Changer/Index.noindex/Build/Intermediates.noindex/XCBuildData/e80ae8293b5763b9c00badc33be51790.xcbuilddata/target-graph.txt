@@ -1,0 +1,11 @@
+Target dependency graph (5 targets)
+Target 'Pape Changer' in project 'Pape Changer'
+➜ Explicit dependency on target 'papeChanger-cli' in project 'Pape Changer'
+➜ Explicit dependency on target 'KeyboardShortcuts' in project 'KeyboardShortcuts'
+Target 'KeyboardShortcuts' in project 'KeyboardShortcuts'
+➜ Explicit dependency on target 'KeyboardShortcuts' in project 'KeyboardShortcuts'
+➜ Explicit dependency on target 'KeyboardShortcuts_KeyboardShortcuts' in project 'KeyboardShortcuts'
+Target 'KeyboardShortcuts' in project 'KeyboardShortcuts'
+➜ Explicit dependency on target 'KeyboardShortcuts_KeyboardShortcuts' in project 'KeyboardShortcuts'
+Target 'KeyboardShortcuts_KeyboardShortcuts' in project 'KeyboardShortcuts' (no dependencies)
+Target 'papeChanger-cli' in project 'Pape Changer' (no dependencies)

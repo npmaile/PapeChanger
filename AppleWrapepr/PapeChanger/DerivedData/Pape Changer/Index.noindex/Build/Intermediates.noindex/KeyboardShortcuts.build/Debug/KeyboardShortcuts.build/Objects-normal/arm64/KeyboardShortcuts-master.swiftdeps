@@ -1,0 +1,27 @@
+version: "Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)"
+options: "a412cbcd49183d078231faf1b6729d0cf30a8a7f8797689aa0d3c80355e36301"
+build_start_time: [1710563273, 738894000]
+build_end_time: [1710563277, 164384000]
+inputs:
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/CarbonKeyboardShortcuts.swift"
+  : [1710561576, 196464819]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Key.swift"
+  : [1710561576, 196688237]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/KeyboardShortcuts.swift"
+  : [1710561576, 196813654]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/NSMenuItem++.swift"
+  : [1710561576, 198711494]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Name.swift"
+  : [1710561576, 198794661]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Recorder.swift"
+  : [1710561576, 199024037]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/RecorderCocoa.swift"
+  : [1710561576, 199143579]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Shortcut.swift"
+  : [1710561576, 199272121]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/Utilities.swift"
+  : [1710561576, 199402163]
+  ? "/Users/npmaile/Library/Developer/Xcode/DerivedData/Pape_Changer-enluzcppekalgibdnjlfvyiixlcn/SourcePackages/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/ViewModifiers.swift"
+  : [1710561576, 199485497]
+  ? "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/KeyboardShortcuts.build/Debug/KeyboardShortcuts.build/DerivedSources/resource_bundle_accessor.swift"
+  : [1710563273, 733097000]

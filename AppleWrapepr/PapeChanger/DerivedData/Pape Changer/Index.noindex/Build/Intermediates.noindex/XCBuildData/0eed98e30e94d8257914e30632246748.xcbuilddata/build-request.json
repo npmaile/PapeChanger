@@ -1,0 +1,61 @@
+{
+  "buildCommand" : {
+    "command" : "prepareForIndexing",
+    "enableIndexBuildArena" : true,
+    "targets" : null
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "5f884fed7448c5f47e29651261727f151bb0c9a324ae9de10304573a269a113b"
+    }
+  ],
+  "containerPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/Pape Changer.xcodeproj",
+  "continueBuildingAfterErrors" : true,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "indexbuild",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx14.4",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Products",
+      "derivedDataPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/PrecompiledHeaders",
+      "indexRegularBuildIntermediatesPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Build/Intermediates.noindex",
+      "indexRegularBuildProductsPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Build/Products",
+      "pchPath" : "/Users/npmaile/src/github.com/npmaile/PapeChanger/AppleWrapepr/PapeChanger/DerivedData/Pape Changer/Index.noindex/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "NO",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "qos" : "utility",
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}
