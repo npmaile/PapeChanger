@@ -24,8 +24,7 @@ build-mac: mkdir clean
 	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
 
 release-mac: mkdir clean
-	cd AppleWrapepr/PapeChanger/Pape\ Changer.xcodeproj && xcodebuild -configuration Release
-xcodebuild -workspace project.xcworkspace -scheme PapeChanger -configuration Release
+	cd AppleWrapepr/PapeChanger/Pape\ Changer.xcodeproj && xcodebuild -workspace project.xcworkspace -scheme PapeChanger -configuration Release
 	create-dmg \
 		--app-drop-link 450 200 \
 		--icon "Pape Changer.app" 150 200\
