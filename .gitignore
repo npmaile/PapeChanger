@@ -4,3 +4,4 @@ build/release/*
 PapeChanger.dmg
 .DS_Store
 AppleWrapepr/PapeChanger/build/*
+PapeChanger.xcarchive

@@ -24,7 +24,14 @@ build-mac: mkdir clean
 	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
 
 release-mac: mkdir clean
-	cd AppleWrapepr/PapeChanger/Pape\ Changer.xcodeproj && xcodebuild -workspace project.xcworkspace -scheme PapeChanger -configuration Release
+	xcodebuild \
+	-workspace AppleWrapepr/PapeChanger/Pape\ Changer.xcodeproj/project.xcworkspace \
+	-scheme PapeChanger \
+	-configuration Release \
+	-archivePath ./PapeChanger.xcarchive \
+	archive \
+
+
 	create-dmg \
 		--app-drop-link 450 200 \
 		--icon "Pape Changer.app" 150 200\
@@ -33,7 +40,7 @@ release-mac: mkdir clean
 		--window-size 600 400 \
 		--background "./assets/MacOS/installer_background.png" \
 		./build/release/MacOS/PapeChanger.dmg \
-  		./AppleWrapepr/PapeChanger/build/Release/Pape\ Changer.app
+		./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app
 	
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
