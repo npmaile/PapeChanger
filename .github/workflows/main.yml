@@ -100,7 +100,7 @@ jobs:
 
       - id: upload-apple-release-asset
         run: |
-          gh release upload latest "./build/release/MacOS/PapeChanger.dmg"
+          gh release upload latest "./PapeChanger.dmg"
   build-windows:
     runs-on: windows-latest
     env:

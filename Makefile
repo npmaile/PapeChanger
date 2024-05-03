@@ -40,9 +40,9 @@ create-dmg:
 		--hide-extension "Pape Changer.app" \
 		--window-size 600 400 \
 		--background "./assets/MacOS/installer_background.png" \
-		./build/release/MacOS/PapeChanger.dmg \
-		./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app/
-	
+		./PapeChanger.dmg \
+		./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app
+
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
 	go run extra/wxsgenerator/generator.go build/package/Win/papeChanger.wxs.templ > ./build/release/Win/papeChanger.wxs
