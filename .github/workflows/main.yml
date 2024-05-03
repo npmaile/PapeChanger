@@ -73,7 +73,7 @@ jobs:
           # notarization service
       
           echo "Creating temp notarization archive"
-          ditto -c -k --keepParent "./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app" "notarization.zip"
+          ditto -c -k --keepParent "./PapeChanger.xcarchive/Products/Applications/Pape Changer.app" "notarization.zip"
 
       
           # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
