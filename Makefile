@@ -9,6 +9,7 @@ $(info $(SHELL))
 
 mkdir: 
 	mkdir -p build/bin
+	mkdir -p build/release
 
 build: mkdir
 	go build -o build/bin/papeChanger main.go
@@ -23,15 +24,17 @@ build-mac: mkdir clean
 	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o build/bin/MacOS/amd64_papeChanger main.go
 	lipo build/bin/MacOS/amd64_papeChanger -create build/bin/MacOS/arm64_papeChanger -output ./build/bin/MacOs/papechanger
 
-release-mac: mkdir clean
+archive-mac: mkdir clean
 	xcodebuild \
 	-workspace AppleWrapepr/PapeChanger/Pape\ Changer.xcodeproj/project.xcworkspace \
 	-scheme PapeChanger \
 	-configuration Release \
 	-archivePath ./PapeChanger.xcarchive \
-	archive \
+	archive
 
+	mv ./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app ./build/release/MacOS/Pape\ Changer.app
 
+create-dmg:
 	create-dmg \
 		--app-drop-link 450 200 \
 		--icon "Pape Changer.app" 150 200\
@@ -40,7 +43,7 @@ release-mac: mkdir clean
 		--window-size 600 400 \
 		--background "./assets/MacOS/installer_background.png" \
 		./build/release/MacOS/PapeChanger.dmg \
-		./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app
+		./build/release/MacOS/Pape\ Changer.app
 	
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
