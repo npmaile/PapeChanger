@@ -32,9 +32,6 @@ archive-mac: mkdir clean
 	-archivePath ./PapeChanger.xcarchive \
 	archive
 
-	mkdir -p "./build/release/MacOS/Pape Changer.app"
-	mv "./PapeChanger.xcarchive/Products/Applications/Pape Changer.app/*" "./build/release/MacOS/Pape Changer.app"
-
 create-dmg:
 	create-dmg \
 		--app-drop-link 450 200 \
@@ -44,7 +41,7 @@ create-dmg:
 		--window-size 600 400 \
 		--background "./assets/MacOS/installer_background.png" \
 		./build/release/MacOS/PapeChanger.dmg \
-		./build/release/MacOS/Pape\ Changer.app
+		./PapeChanger.xcarchive/Products/Applications/Pape\ Changer.app/
 	
 release-win:
 	go build -o build/release/Win/papeChanger.exe -ldflags -H=windowsgui main.go
