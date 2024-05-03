@@ -73,7 +73,8 @@ jobs:
           # notarization service
       
           echo "Creating temp notarization archive"
-          ditto -c -k --keepParent "build/release/MacOS/Pape\ Changer.app" "notarization.zip"
+          ditto -c -k --keepParent "build/release/MacOS/Pape Changer.app" "notarization.zip"
+
       
           # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
           # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
