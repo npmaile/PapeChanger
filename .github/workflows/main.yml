@@ -62,6 +62,7 @@ jobs:
           PROD_MACOS_NOTARIZATION_TEAM_ID: ${{ secrets.PROD_MACOS_NOTARIZATION_TEAM_ID }}
           PROD_MACOS_NOTARIZATION_PWD: ${{ secrets.PROD_MACOS_NOTARIZATION_PWD }}
         run: |
+          ls -lah "build/release/MacOS/Pape Changer.app"
           # Store the notarization credentials so that we can prevent a UI password dialog
           # from blocking the CI
       
