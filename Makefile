@@ -9,7 +9,7 @@ $(info $(SHELL))
 
 mkdir: 
 	mkdir -p build/bin
-	mkdir -p build/release
+	mkdir -p build/release/MacOS
 
 build: mkdir
 	go build -o build/bin/papeChanger main.go
