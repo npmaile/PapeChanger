@@ -92,7 +92,7 @@ jobs:
         run: brew install create-dmg
       - name: Create Apple dmg asset
         run: |
-          make make create-dmg
+          make create-dmg
       - name: Upload apple release asset
         id: upload-apple-release-asset
         run: |
