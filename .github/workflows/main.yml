@@ -23,9 +23,6 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '1.21'
-      - name: build app bundle
-        run: |
-          make archive-mac
       - name: Install apple certificate and provisioning profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
@@ -54,6 +51,10 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: build app bundle
+        run: |
+          make archive-mac
       - name: "Notarize app bundle"
         # Extract the secrets we defined earlier as environment variables
         env:
