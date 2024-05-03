@@ -54,7 +54,7 @@ jobs:
 
       - name: build app bundle
         run: |
-          make mkdir
+          tree
           make archive-mac
       - name: "Notarize app bundle"
         # Extract the secrets we defined earlier as environment variables
