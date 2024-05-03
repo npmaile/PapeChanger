@@ -32,7 +32,7 @@ archive-mac: mkdir clean
 	-archivePath ./PapeChanger.xcarchive \
 	archive
 
-	mkdir "./build/release/MacOS/Pape Changer.app"
+	mkdir -p "./build/release/MacOS/Pape Changer.app"
 	mv "./PapeChanger.xcarchive/Products/Applications/Pape Changer.app/*" "./build/release/MacOS/Pape Changer.app"
 
 create-dmg:
