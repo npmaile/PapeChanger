@@ -93,6 +93,8 @@ jobs:
       - name: Create Apple dmg asset
         run: |
           make create-dmg
+      - run: |
+          mkdir -p ./build/release/MacOS/
       - name: Upload apple release asset
         id: upload-apple-release-asset
         run: |
